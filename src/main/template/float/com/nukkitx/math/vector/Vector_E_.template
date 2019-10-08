@@ -1,0 +1,56 @@
+package com.nukkitx.math.vector;
+
+import javax.annotation.Nonnull;
+
+public interface Vector#E# {
+
+    @Nonnull
+    public Vector#E# mul(#e# a);
+
+    @Nonnull
+    public Vector#E# div(#e# a);
+
+    @Nonnull
+    public Vector#E# pow(#e# pow);
+
+    @Nonnull
+    public Vector#E# ceil();
+
+    @Nonnull
+    public Vector#E# floor();
+
+    @Nonnull
+    public Vector#E# round();
+
+    @Nonnull
+    public Vector#E# abs();
+
+    @Nonnull
+    public Vector#E# negate();
+
+    public #e# length();
+
+    public #e# lengthSquared();
+
+    @Nonnull
+    public Vector#E# normalize();
+
+    public int getMinAxis();
+
+    public int getMaxAxis();
+
+    @Nonnull
+    public #e#[] toArray();
+
+    @Nonnull
+    public Vectori toInt();
+
+    @Nonnull
+    public Vectorl toLong();
+
+    @Nonnull
+    public Vectorf toFloat();
+
+    @Nonnull
+    public Vectord toDouble();
+}

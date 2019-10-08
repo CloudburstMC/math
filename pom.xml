@@ -3,13 +3,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <!-- Project information -->
-    <name>Flow Math</name>
-    <groupId>com.flowpowered</groupId>
-    <artifactId>flow-math</artifactId>
+    <name>Math</name>
+    <groupId>com.nukkitx</groupId>
+    <artifactId>math</artifactId>
     <version>1.0.4-SNAPSHOT</version>
     <packaging>jar</packaging>
     <inceptionYear>2013</inceptionYear>
-    <url>https://flowpowered.com/math</url>
+    <url>https://github.com/NukkitX/math</url>
     <description>Immutable math library for Java with a focus on games and computer graphics.</description>
 
     <!-- Parent information -->
@@ -39,8 +39,8 @@
 
     <!-- Organization information -->
     <organization>
-        <name>Flow Powered</name>
-        <url>https://flowpowered.com</url>
+        <name>NukkitX</name>
+        <url>https://nukkitx.com</url>
     </organization>
 
     <!-- Project developers -->
@@ -69,15 +69,28 @@
 
     <!-- Source code access -->
     <scm>
-        <connection>scm:git:git://github.com/flow/math.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com:flow/math.git</developerConnection>
-        <url>https://github.com/flow/math</url>
+        <connection>scm:git:git://github.com/NukkitX/math.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:NukkitX/math.git</developerConnection>
+        <url>https://github.com/NukkitX/math</url>
     </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <name>nukkitx-releases</name>
+            <url>https://repo.nukkitx.com/release</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>nukkitx-snapshots</name>
+            <url>https://repo.nukkitx.com/snapshot</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <!-- Continuous integration -->
     <ciManagement>
-        <system>travis</system>
-        <url>https://travis-ci.org/flow/math</url>
+        <system>jenkins</system>
+        <url>https://ci.nukkitx.com/job/NukkitX/job/math</url>
     </ciManagement>
 
     <!-- Issue management -->
@@ -88,6 +101,13 @@
 
     <!-- Project dependencies -->
     <dependencies>
+        <!-- Annotations -->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+            <scope>provided</scope>
+        </dependency>
         <!-- Testing only -->
         <dependency>
             <groupId>junit</groupId>
@@ -176,6 +196,7 @@
                                         <Overload2>long</Overload2>
                                         <S>Int</S>
                                         <FloorFunc>GenericMath.floor</FloorFunc>
+                                        <CeilFunc>GenericMath.ceil</CeilFunc>
                                         <DecEqui>float</DecEqui>
                                     </placeholders>
                                 </type>
@@ -190,7 +211,8 @@
                                         <Overload1>float</Overload1>
                                         <Overload2>int</Overload2>
                                         <S>Long</S>
-                                        <FloorFunc>GenericMath.floorl</FloorFunc>
+                                        <FloorFunc>GenericMath.floor64</FloorFunc>
+                                        <CeilFunc>GenericMath.ceil64</CeilFunc>
                                         <DecEqui>double</DecEqui>
                                     </placeholders>
                                 </type>
@@ -329,8 +351,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.3</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <compilerArguments>
                         <O>-Xlint:all</O>
                         <O>-Xlint:-path</O>
@@ -384,6 +406,7 @@
                 <configuration>
                     <format>xml</format>
                     <maxmem>256m</maxmem>
+                    <check/>
                 </configuration>
             </plugin>
         </plugins>

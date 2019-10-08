@@ -1,0 +1,435 @@
+package com.nukkitx.math.vector;
+
+import com.nukkitx.math.GenericMath;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import java.io.Serializable;
+
+@ParametersAreNonnullByDefault
+public class Vector3#E# implements Vector#E#, Comparable<Vector3#E#>, Serializable, Cloneable {
+    private static final long serialVersionUID = 1;
+    public static final Vector3#E# ZERO = new Vector3#E#(0, 0, 0);
+    public static final Vector3#E# UNIT_X = new Vector3#E#(1, 0, 0);
+    public static final Vector3#E# UNIT_Y = new Vector3#E#(0, 1, 0);
+    public static final Vector3#E# UNIT_Z = new Vector3#E#(0, 0, 1);
+    public static final Vector3#E# ONE = Vector3#E#.from(1, 1, 1);
+    public static final Vector3#E# RIGHT = UNIT_X;
+    public static final Vector3#E# UP = UNIT_Y;
+    public static final Vector3#E# FORWARD = UNIT_Z;
+    private final #e# x;
+    private final #e# y;
+    private final #e# z;
+    private transient volatile boolean hashed = false;
+    private transient volatile int hashCode = 0;
+
+    private Vector3#E#(#e# x, #e# y, #e# z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+
+    public #e# getX() {
+        return x;
+    }
+
+    public #e# getY() {
+        return y;
+    }
+
+    public #e# getZ() {
+        return z;
+    }
+
+    @Nonnull
+    public Vector3#E# add(Vector3#E# v) {
+        return add(v.x, v.y, v.z);
+    }
+
+    @Nonnull
+    public Vector3#E# add(#EOverload# x, #EOverload# y, #EOverload# z) {
+        return add(#EFloorFunc#(x), #EFloorFunc#(y), #EFloorFunc#(z));
+    }
+
+    @Nonnull
+    public Vector3#E# add(#e# x, #e# y, #e# z) {
+        return Vector3#E#.from(this.x + x, this.y + y, this.z + z);
+    }
+
+    @Nonnull
+    public Vector3#E# sub(Vector3#E# v) {
+        return sub(v.x, v.y, v.z);
+    }
+
+    @Nonnull
+    public Vector3#E# sub(#EOverload# x, #EOverload# y, #EOverload# z) {
+        return sub(#EFloorFunc#(x), #EFloorFunc#(y), #EFloorFunc#(z));
+    }
+
+    @Nonnull
+    public Vector3#E# sub(#e# x, #e# y, #e# z) {
+        return Vector3#E#.from(this.x - x, this.y - y, this.z - z);
+    }
+
+    @Nonnull
+    public Vector3#E# mul(#EOverload# a) {
+        return mul(#EFloorFunc#(a));
+    }
+
+    @Nonnull
+    @Override
+    public Vector3#E# mul(#e# a) {
+        return mul(a, a, a);
+    }
+
+    @Nonnull
+    public Vector3#E# mul(Vector3#E# v) {
+        return mul(v.x, v.y, v.z);
+    }
+
+    @Nonnull
+    public Vector3#E# mul(#EOverload# x, #EOverload# y, #EOverload# z) {
+        return mul(#EFloorFunc#(x), #EFloorFunc#(y), #EFloorFunc#(z));
+    }
+
+    @Nonnull
+    public Vector3#E# mul(#e# x, #e# y, #e# z) {
+        return Vector3#E#.from(this.x * x, this.y * y, this.z * z);
+    }
+
+    @Nonnull
+    public Vector3#E# div(#EOverload# a) {
+        return div(#EFloorFunc#(a));
+    }
+
+    @Nonnull
+    @Override
+    public Vector3#E# div(#e# a) {
+        return div(a, a, a);
+    }
+
+    @Nonnull
+    public Vector3#E# div(Vector3#E# v) {
+        return div(v.x, v.y, v.z);
+    }
+
+    @Nonnull
+    public Vector3#E# div(#EOverload# x, #EOverload# y, #EOverload# z) {
+        return div(#EFloorFunc#(x), #EFloorFunc#(y), #EFloorFunc#(z));
+    }
+
+    @Nonnull
+    public Vector3#E# div(#e# x, #e# y, #e# z) {
+        return Vector3#E#.from(this.x / x, this.y / y, this.z / z);
+    }
+
+    public #e# dot(Vector3#E# v) {
+        return dot(v.x, v.y, v.z);
+    }
+
+    public #e# dot(#EOverload# x, #EOverload# y, #EOverload# z) {
+        return dot(#EFloorFunc#(x), #EFloorFunc#(y), #EFloorFunc#(z));
+    }
+
+    public #e# dot(#e# x, #e# y, #e# z) {
+        return this.x * x + this.y * y + this.z * z;
+    }
+
+    @Nonnull
+    public Vector3#E# project(Vector3#E# v) {
+        return project(v.x, v.y, v.z);
+    }
+
+    @Nonnull
+    public Vector3#E# project(#EOverload# x, #EOverload# y, #EOverload# z) {
+        return project(#EFloorFunc#(x), #EFloorFunc#(y), #EFloorFunc#(z));
+    }
+
+    @Nonnull
+    public Vector3#E# project(#e# x, #e# y, #e# z) {
+        final #e# lengthSquared = x * x + y * y + z * z;
+        if (lengthSquared == 0) {
+            throw new ArithmeticException("Cannot project onto the zero vector");
+        }
+        final #EDecEqui# a = (#EDecEqui#) dot(x, y, z) / lengthSquared;
+        return Vector3#E#.from(a * x, a * y, a * z);
+    }
+
+    @Nonnull
+    public Vector3#E# cross(Vector3#E# v) {
+        return cross(v.x, v.y, v.z);
+    }
+
+    @Nonnull
+    public Vector3#E# cross(#EOverload# x, #EOverload# y, #EOverload# z) {
+        return cross(#EFloorFunc#(x), #EFloorFunc#(y), #EFloorFunc#(z));
+    }
+
+    @Nonnull
+    public Vector3#E# cross(#e# x, #e# y, #e# z) {
+        return Vector3#E#.from(this.y * z - this.z * y, this.z * x - this.x * z, this.x * y - this.y * x);
+    }
+
+    @Nonnull
+    public Vector3#E# pow(#EOverload# pow) {
+        return pow(#EFloorFunc#(pow));
+    }
+
+    @Nonnull
+    @Override
+    public Vector3#E# pow(#e# power) {
+        return Vector3#E#.from(Math.pow(x, power), Math.pow(y, power), Math.pow(z, power));
+    }
+
+    @Nonnull
+    @Override
+    public Vector3#E# abs() {
+        return Vector3#E#.from(Math.abs(x), Math.abs(y), Math.abs(z));
+    }
+
+    @Nonnull
+    @Override
+    public Vector3#E# negate() {
+        return Vector3#E#.from(-x, -y, -z);
+    }
+
+    @Nonnull
+    public Vector3#E# min(Vector3#E# v) {
+        return min(v.x, v.y, v.z);
+    }
+
+    @Nonnull
+    public Vector3#E# min(#EOverload# x, #EOverload# y, #EOverload# z) {
+        return min(#EFloorFunc#(x), #EFloorFunc#(y), #EFloorFunc#(z));
+    }
+
+    @Nonnull
+    public Vector3#E# min(#e# x, #e# y, #e# z) {
+        return Vector3#E#.from(Math.min(this.x, x), Math.min(this.y, y), Math.min(this.z, z));
+    }
+
+    @Nonnull
+    public Vector3#E# max(Vector3#E# v) {
+        return max(v.x, v.y, v.z);
+    }
+
+    @Nonnull
+    public Vector3#E# max(#EOverload# x, #EOverload# y, #EOverload# z) {
+        return max(#EFloorFunc#(x), #EFloorFunc#(y), #EFloorFunc#(z));
+    }
+
+    @Nonnull
+    public Vector3#E# max(#e# x, #e# y, #e# z) {
+        return Vector3#E#.from(Math.max(this.x, x), Math.max(this.y, y), Math.max(this.z, z));
+    }
+
+    public #e# distanceSquared(Vector3#E# v) {
+        return distanceSquared(v.x, v.y, v.z);
+    }
+
+    public #e# distanceSquared(#EOverload# x, #EOverload# y, #EOverload# z) {
+        return distanceSquared(#EFloorFunc#(x), #EFloorFunc#(y), #EFloorFunc#(z));
+    }
+
+    public #e# distanceSquared(#e# x, #e# y, #e# z) {
+        final #e# dx = this.x - x;
+        final #e# dy = this.y - y;
+        final #e# dz = this.z - z;
+        return dx * dx + dy * dy + dz * dz;
+    }
+
+    public #EDecEqui# distance(Vector3#E# v) {
+        return distance(v.x, v.y, v.z);
+    }
+
+    public #EDecEqui# distance(#EOverload# x, #EOverload# y, #EOverload# z) {
+        return distance(#EFloorFunc#(x), #EFloorFunc#(y), #EFloorFunc#(z));
+    }
+
+    public #EDecEqui# distance(#e# x, #e# y, #e# z) {
+        return (#EDecEqui#) Math.sqrt(distanceSquared(x, y, z));
+    }
+
+    @Override
+    public #e# lengthSquared() {
+        return x * x + y * y + z * z;
+    }
+
+    @Override
+    public #EDecEqui# length() {
+        return (#EDecEqui#) Math.sqrt(lengthSquared());
+    }
+
+    /**
+     * Returns the axis with the minimal value.
+     *
+     * @return {@link int} axis with minimal value
+     */
+    @Override
+    public int getMinAxis() {
+        return x < y ? (x < z ? 0 : 2) : (y < z ? 1 : 2);
+    }
+
+    /**
+     * Returns the axis with the maximum value.
+     *
+     * @return {@link int} axis with maximum value
+     */
+    @Override
+    public int getMaxAxis() {
+        return x < y ? (y < z ? 2 : 1) : (x < z ? 2 : 0);
+    }
+
+    @Nonnull
+    public Vector2#E# toVector2() {
+        return Vector2#E#.from(this);
+    }
+
+    @Nonnull
+    public Vector2#E# toVector2(boolean useZ) {
+        return Vector2#E#.from(x, useZ ? z : y);
+    }
+
+    @Nonnull
+    public Vector4#E# toVector4() {
+        return toVector4(0);
+    }
+
+    @Nonnull
+    public Vector4#E# toVector4(#EOverload# w) {
+        return toVector4(#EFloorFunc#(w));
+    }
+
+    @Nonnull
+    public Vector4#E# toVector4(#e# w) {
+        return Vector4#E#.from(this, w);
+    }
+
+    @Nonnull
+    public VectorN#E# toVectorN() {
+        return VectorN#E#.from(this);
+    }
+
+    @Nonnull
+    @Override
+    public #e#[] toArray() {
+        return new #e#[]{x, y, z};
+    }
+
+    @Nonnull
+    @Override
+    public Vector3i toInt() {
+        return Vector3i.from(x, y, z);
+    }
+
+    @Nonnull
+    @Override
+    public Vector3l toLong() {
+        return Vector3l.from(x, y, z);
+    }
+
+    @Nonnull
+    @Override
+    public Vector3f toFloat() {
+        return Vector3f.from(x, y, z);
+    }
+
+    @Nonnull
+    @Override
+    public Vector3d toDouble() {
+        return Vector3d.from(x, y, z);
+    }
+
+    @Override
+    public int compareTo(Vector3#E# v) {
+        return (int) (lengthSquared() - v.lengthSquared());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Vector3#E#)) {
+            return false;
+        }
+        final Vector3#E# vector3 = (Vector3#E#) o;
+        if (vector3.x != x) {
+            return false;
+        }
+        if (vector3.y != y) {
+            return false;
+        }
+        if (vector3.z != z) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        if (!hashed) {
+            hashCode = ((#ET#.hashCode(x) * 211 + #ET#.hashCode(y)) * 97 + #ET#.hashCode(z));
+            hashed = true;
+        }
+        return hashCode;
+    }
+
+    @Nonnull
+    @Override
+    public Vector3#E# clone() {
+        return Vector3#E#.from(this);
+    }
+
+    @Nonnull
+    @Override
+    public String toString() {
+        return "(" + x + ", " + y + ", " + z + ")";
+    }
+
+    @Nonnull
+    public static Vector3#E# from(#e# n) {
+         return n == 0 ? ZERO : new Vector3#E#(n, n, n);
+    }
+
+    @Nonnull
+    public static Vector3#E# from(Vector2#E# v) {
+        return from(v, 0);
+    }
+
+    @Nonnull
+    public static Vector3#E# from(Vector2#E# v, #EOverload# z) {
+        return from(v, #EFloorFunc#(z));
+    }
+
+    @Nonnull
+    public static Vector3#E# from(Vector2#E# v, #e# z) {
+        return from(v.getX(), v.getY(), z);
+    }
+
+    @Nonnull
+    public static Vector3#E# from(Vector3#E# v) {
+        return from(v.x, v.y, v.z);
+    }
+
+    @Nonnull
+    public static Vector3#E# from(Vector4#E# v) {
+        return from(v.getX(), v.getY(), v.getZ());
+    }
+
+    @Nonnull
+    public static Vector3#E# from(VectorN#E# v) {
+        return from(v.get(0), v.get(1), v.size() > 2 ? v.get(2) : 0);
+    }
+
+    @Nonnull
+    public static Vector3#E# from(#EOverload# x, #EOverload# y, #EOverload# z) {
+        return from(#EFloorFunc#(x), #EFloorFunc#(y), #EFloorFunc#(z));
+    }
+
+    @Nonnull
+    public static Vector3#E# from(#e# x, #e# y, #e# z) {
+         return x == 0 && y == 0 && z == 0 ? ZERO : new Vector3#E#(x, y, z);
+    }
+}

@@ -1,0 +1,59 @@
+package com.nukkitx.math.matrix;
+
+import com.nukkitx.math.vector.Vector#E#;
+
+import javax.annotation.Nonnull;
+
+public interface Matrix#E# {
+
+    public #e# get(int row, int col);
+
+    @Nonnull
+    public Vector#E# getRow(int row);
+
+    @Nonnull
+    public Vector#E# getColumn(int col);
+
+    @Nonnull
+    public Matrix#E# mul(#e# a);
+
+    @Nonnull
+    public Matrix#E# div(#e# a);
+
+    @Nonnull
+    public Matrix#E# pow(#e# pow);
+
+    @Nonnull
+    public Matrix#E# ceil();
+
+    @Nonnull
+    public Matrix#E# floor();
+
+    @Nonnull
+    public Matrix#E# round();
+
+    @Nonnull
+    public Matrix#E# abs();
+
+    @Nonnull
+    public Matrix#E# negate();
+
+    @Nonnull
+    public Matrix#E# transpose();
+
+    public #e# trace();
+
+    public #e# determinant();
+
+    @Nonnull
+    public Matrix#E# invert();
+
+    @Nonnull
+    public #e#[] toArray(boolean columnMajor);
+
+    @Nonnull
+    public Matrixf toFloat();
+
+    @Nonnull
+    public Matrixd toDouble();
+}
