@@ -5,10 +5,12 @@ import com.nukkitx.math.TrigMath;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
 
 import java.io.Serializable;
 import java.util.Random;
 
+@Immutable
 @ParametersAreNonnullByDefault
 public class Vector2#E# implements Vector#E#, Comparable<Vector2#E#>, Serializable, Cloneable {
     private static final long serialVersionUID = 1;
@@ -251,6 +253,46 @@ public class Vector2#E# implements Vector#E#, Comparable<Vector2#E#>, Serializab
 
     public #e# distance(#e# x, #e# y) {
         return (#e#) Math.sqrt(distanceSquared(x, y));
+    }
+
+    @Nonnull
+    public Vector2#E# north() {
+        return north(1);
+    }
+
+    @Nonnull
+    public Vector2#E# north(#e# v) {
+        return Vector2#E#.from(this.x, this.y - v);
+    }
+
+    @Nonnull
+    public Vector2#E# south() {
+        return south(1);
+    }
+
+    @Nonnull
+    public Vector2#E# south(#e# v) {
+        return Vector2#E#.from(this.x, this.y + v);
+    }
+
+    @Nonnull
+    public Vector2#E# east() {
+        return east(1);
+    }
+
+    @Nonnull
+    public Vector2#E# east(#e# v) {
+        return Vector2#E#.from(this.x + v, this.y);
+    }
+
+    @Nonnull
+    public Vector2#E# west() {
+        return west(1);
+    }
+
+    @Nonnull
+    public Vector2#E# west(#e# v) {
+        return Vector2#E#.from(this.x - v, this.y);
     }
 
     @Override

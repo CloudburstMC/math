@@ -4,9 +4,11 @@ import com.nukkitx.math.GenericMath;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
 
 import java.io.Serializable;
 
+@Immutable
 @ParametersAreNonnullByDefault
 public class Vector4#E# implements Vector#E#, Comparable<Vector4#E#>, Serializable, Cloneable {
     private static final long serialVersionUID = 1;

@@ -4,9 +4,11 @@ import com.nukkitx.math.GenericMath;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
 
 import java.io.Serializable;
 
+@Immutable
 @ParametersAreNonnullByDefault
 public class Vector3#E# implements Vector#E#, Comparable<Vector3#E#>, Serializable, Cloneable {
     private static final long serialVersionUID = 1;
@@ -249,6 +251,66 @@ public class Vector3#E# implements Vector#E#, Comparable<Vector3#E#>, Serializab
 
     public #EDecEqui# distance(#e# x, #e# y, #e# z) {
         return (#EDecEqui#) Math.sqrt(distanceSquared(x, y, z));
+    }
+
+    @Nonnull
+    public Vector3#E# up() {
+        return up(1);
+    }
+
+    @Nonnull
+    public Vector3#E# up(#e# v) {
+        return Vector3#E#.from(this.x, this.y + v, this.z);
+    }
+
+    @Nonnull
+    public Vector3#E# down() {
+        return down(1);
+    }
+
+    @Nonnull
+    public Vector3#E# down(#e# v) {
+        return Vector3#E#.from(this.x, this.y - v, this.z);
+    }
+
+    @Nonnull
+    public Vector3#E# north() {
+        return north(1);
+    }
+
+    @Nonnull
+    public Vector3#E# north(#e# v) {
+        return Vector3#E#.from(this.x, this.y, this.z - v);
+    }
+
+    @Nonnull
+    public Vector3#E# south() {
+        return south(1);
+    }
+
+    @Nonnull
+    public Vector3#E# south(#e# v) {
+        return Vector3#E#.from(this.x, this.y, this.z + v);
+    }
+
+    @Nonnull
+    public Vector3#E# east() {
+        return east(1);
+    }
+
+    @Nonnull
+    public Vector3#E# east(#e# v) {
+        return Vector3#E#.from(this.x + v, this.y, this.z);
+    }
+
+    @Nonnull
+    public Vector3#E# west() {
+        return west(1);
+    }
+
+    @Nonnull
+    public Vector3#E# west(#e# v) {
+        return Vector3#E#.from(this.x - v, this.y, this.z);
     }
 
     @Override
