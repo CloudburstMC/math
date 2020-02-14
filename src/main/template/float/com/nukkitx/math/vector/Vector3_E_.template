@@ -286,45 +286,45 @@ public class Vector3#E# implements Vector#E#, Comparable<Vector3#E#>, Serializab
         return (#e#) Math.sqrt(distanceSquared(x, y, z));
     }
 
-@Nonnull
-public Vector3#E# up() {
+    @Nonnull
+    public Vector3#E# up() {
         return up(1);
-        }
+    }
 
-@Nonnull
-public Vector3#E# up(#e# v) {
+    @Nonnull
+    public Vector3#E# up(#e# v) {
         return Vector3#E#.from(this.x, this.y + v, this.z);
-        }
+    }
 
-@Nonnull
-public Vector3#E# down() {
+    @Nonnull
+    public Vector3#E# down() {
         return down(1);
-        }
+    }
 
-@Nonnull
-public Vector3#E# down(#e# v) {
+    @Nonnull
+    public Vector3#E# down(#e# v) {
         return Vector3#E#.from(this.x, this.y - v, this.z);
-        }
+    }
 
-@Nonnull
-public Vector3#E# north() {
+    @Nonnull
+    public Vector3#E# north() {
         return north(1);
-        }
+    }
 
-@Nonnull
-public Vector3#E# north(#e# v) {
+    @Nonnull
+    public Vector3#E# north(#e# v) {
         return Vector3#E#.from(this.x, this.y, this.z - v);
-        }
+    }
 
-@Nonnull
-public Vector3#E# south() {
+    @Nonnull
+    public Vector3#E# south() {
         return south(1);
-        }
+    }
 
-@Nonnull
-public Vector3#E# south(#e# v) {
+    @Nonnull
+    public Vector3#E# south(#e# v) {
         return Vector3#E#.from(this.x, this.y, this.z + v);
-        }
+    }
 
     @Nonnull
     public Vector3#E# east() {
