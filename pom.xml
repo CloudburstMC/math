@@ -4,12 +4,12 @@
 
     <!-- Project information -->
     <name>Math</name>
-    <groupId>com.nukkitx</groupId>
+    <groupId>org.cloudburstmc</groupId>
     <artifactId>math</artifactId>
     <version>1.1.0</version>
     <packaging>jar</packaging>
     <inceptionYear>2013</inceptionYear>
-    <url>https://github.com/NukkitX/math</url>
+    <url>https://github.com/CloudburstMC/math</url>
     <description>Immutable math library for Java with a focus on games and computer graphics.</description>
 
     <!-- Parent information -->
@@ -39,8 +39,8 @@
 
     <!-- Organization information -->
     <organization>
-        <name>NukkitX</name>
-        <url>https://nukkitx.com</url>
+        <name>CloudburstMC</name>
+        <url>https://cloudburstmc.org</url>
     </organization>
 
     <!-- Project developers -->
@@ -69,9 +69,9 @@
 
     <!-- Source code access -->
     <scm>
-        <connection>scm:git:git://github.com/NukkitX/math.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com:NukkitX/math.git</developerConnection>
-        <url>https://github.com/NukkitX/math</url>
+        <connection>scm:git:https://github.com/CloudburstMC/math.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:CloudburstMC/math.git</developerConnection>
+        <url>https://github.com/CloudburstMC/math</url>
     </scm>
 
     <distributionManagement>

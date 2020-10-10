@@ -1,0 +1,461 @@
+package org.cloudburstmc.math.matrix;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.cloudburstmc.math.GenericMath;
+import org.cloudburstmc.math.imaginary.Complex#E#;
+import org.cloudburstmc.math.vector.Vector2#E#;
+
+import java.io.Serializable;
+
+@ParametersAreNonnullByDefault
+public class Matrix2#E# implements Matrix#E#, Serializable, Cloneable {
+    private static final long serialVersionUID = 1;
+    public static final Matrix2#E# ZERO = new Matrix2#E#(
+            0, 0,
+            0, 0);
+    public static final Matrix2#E# IDENTITY = new Matrix2#E#(
+            1, 0,
+            0, 1);
+    private final #e# m00, m01;
+    private final #e# m10, m11;
+    private transient volatile boolean hashed = false;
+    private transient volatile int hashCode = 0;
+
+    private Matrix2#E#(
+            #e# m00, #e# m01,
+            #e# m10, #e# m11) {
+        this.m00 = m00;
+        this.m01 = m01;
+        this.m10 = m10;
+        this.m11 = m11;
+    }
+
+    @Override
+    public #e# get(int row, int col) {
+        switch (row) {
+        case 0:
+            switch (col) {
+            case 0:
+                return m00;
+            case 1:
+                return m01;
+            }
+        case 1:
+            switch (col) {
+            case 0:
+                return m10;
+            case 1:
+                return m11;
+            }
+        }
+        throw new IllegalArgumentException(
+                (row < 0 || row > 1 ? "row must be greater than zero and smaller than 2. " : "") +
+                (col < 0 || col > 1 ? "col must be greater than zero and smaller than 2." : ""));
+    }
+
+    @Nonnull
+    @Override
+    public Vector2#E# getRow(int row) {
+        return Vector2#E#.from(get(row, 0), get(row, 1));
+    }
+
+    @Nonnull
+    @Override
+    public Vector2#E# getColumn(int col) {
+        return Vector2#E#.from(get(0, col), get(1, col));
+    }
+
+    @Nonnull
+    public Matrix2#E# add(Matrix2#E# m) {
+        return Matrix2#E#.from(
+                m00 + m.m00, m01 + m.m01,
+                m10 + m.m10, m11 + m.m11);
+    }
+
+    @Nonnull
+    public Matrix2#E# sub(Matrix2#E# m) {
+        return Matrix2#E#.from(
+                m00 - m.m00, m01 - m.m01,
+                m10 - m.m10, m11 - m.m11);
+    }
+
+    @Nonnull
+    public Matrix2#E# mul(#EOverload# a) {
+        return mul((#e#) a);
+    }
+
+    @Nonnull
+    @Override
+    public Matrix2#E# mul(#e# a) {
+        return Matrix2#E#.from(
+                m00 * a, m01 * a,
+                m10 * a, m11 * a);
+    }
+
+    @Nonnull
+    public Matrix2#E# mul(Matrix2#E# m) {
+        return Matrix2#E#.from(
+                m00 * m.m00 + m01 * m.m10, m00 * m.m01 + m01 * m.m11,
+                m10 * m.m00 + m11 * m.m10, m10 * m.m01 + m11 * m.m11);
+    }
+
+    @Nonnull
+    public Matrix2#E# div(#EOverload# a) {
+        return div((#e#) a);
+    }
+
+    @Nonnull
+    @Override
+    public Matrix2#E# div(#e# a) {
+        return Matrix2#E#.from(
+                m00 / a, m01 / a,
+                m10 / a, m11 / a);
+    }
+
+    @Nonnull
+    public Matrix2#E# div(Matrix2#E# m) {
+        return mul(m.invert());
+    }
+
+    @Nonnull
+    public Matrix2#E# pow(#EOverload# pow) {
+        return pow((#e#) pow);
+    }
+
+    @Nonnull
+    @Override
+    public Matrix2#E# pow(#e# pow) {
+        return Matrix2#E#.from(
+                Math.pow(m00, pow), Math.pow(m01, pow),
+                Math.pow(m10, pow), Math.pow(m11, pow));
+    }
+
+    @Nonnull
+    public Matrix2#E# translate(#EOverload# x) {
+        return translate((#e#) x);
+    }
+
+    @Nonnull
+    public Matrix2#E# translate(#e# x) {
+        return createTranslation(x).mul(this);
+    }
+
+    @Nonnull
+    public Matrix2#E# scale(#EOverload# scale) {
+        return scale((#e#) scale);
+    }
+
+    @Nonnull
+    public Matrix2#E# scale(#e# scale) {
+        return scale(scale, scale);
+    }
+
+    @Nonnull
+    public Matrix2#E# scale(Vector2#E# v) {
+        return scale(v.getX(), v.getY());
+    }
+
+    @Nonnull
+    public Matrix2#E# scale(#EOverload# x, #EOverload# y) {
+        return scale((#e#) x, (#e#) y);
+    }
+
+    @Nonnull
+    public Matrix2#E# scale(#e# x, #e# y) {
+        return createScaling(x, y).mul(this);
+    }
+
+    @Nonnull
+    public Matrix2#E# rotate(Complex#E# rot) {
+        return createRotation(rot).mul(this);
+    }
+
+    @Nonnull
+    public Vector2#E# transform(Vector2#E# v) {
+        return transform(v.getX(), v.getY());
+    }
+
+    @Nonnull
+    public Vector2#E# transform(#EOverload# x, #EOverload# y) {
+        return transform((#e#) x, (#e#) y);
+    }
+
+    @Nonnull
+    public Vector2#E# transform(#e# x, #e# y) {
+        return Vector2#E#.from(
+                m00 * x + m01 * y,
+                m10 * x + m11 * y);
+    }
+
+    @Nonnull
+    @Override
+    public Matrix2#E# floor() {
+        return Matrix2#E#.from(
+                GenericMath.floor(m00), GenericMath.floor(m01),
+                GenericMath.floor(m10), GenericMath.floor(m11));
+    }
+
+    @Nonnull
+    @Override
+    public Matrix2#E# ceil() {
+        return Matrix2#E#.from(
+                Math.ceil(m00), Math.ceil(m01),
+                Math.ceil(m10), Math.ceil(m11));
+    }
+
+    @Nonnull
+    @Override
+    public Matrix2#E# round() {
+        return Matrix2#E#.from(
+                Math.round(m00), Math.round(m01),
+                Math.round(m10), Math.round(m11));
+    }
+
+    @Nonnull
+    @Override
+    public Matrix2#E# abs() {
+        return Matrix2#E#.from(
+                Math.abs(m00), Math.abs(m01),
+                Math.abs(m10), Math.abs(m11));
+    }
+
+    @Nonnull
+    @Override
+    public Matrix2#E# negate() {
+        return Matrix2#E#.from(
+                -m00, -m01,
+                -m10, -m11);
+    }
+
+    @Nonnull
+    @Override
+    public Matrix2#E# transpose() {
+        return Matrix2#E#.from(
+                m00, m10,
+                m01, m11);
+    }
+
+    @Override
+    public #e# trace() {
+        return m00 + m11;
+    }
+
+    @Override
+    public #e# determinant() {
+        return m00 * m11 - m01 * m10;
+    }
+
+    @Nonnull
+    @Override
+    public Matrix2#E# invert() {
+        final #e# det = determinant();
+        if (Math.abs(det) < #Eeps#) {
+            throw new ArithmeticException("Cannot inverse a matrix with a zero determinant");
+        }
+        return Matrix2#E#.from(
+                m11 / det, -m01 / det,
+                -m10 / det, m00 / det);
+    }
+
+    @Nonnull
+    public Matrix3#E# toMatrix3() {
+        return Matrix3#E#.from(this);
+    }
+
+    @Nonnull
+    public Matrix4#E# toMatrix4() {
+        return Matrix4#E#.from(this);
+    }
+
+    @Nonnull
+    public MatrixN#E# toMatrixN() {
+        return MatrixN#E#.from(this);
+    }
+
+    @Nonnull
+    public #e#[] toArray() {
+        return toArray(false);
+    }
+
+    @Nonnull
+    @Override
+    public #e#[] toArray(boolean columnMajor) {
+        if (columnMajor) {
+            return new #e#[]{
+                    m00, m10,
+                    m01, m11
+            };
+        } else {
+            return new #e#[]{
+                    m00, m01,
+                    m10, m11
+            };
+        }
+    }
+
+    @Nonnull
+    @Override
+    public Matrix2f toFloat() {
+        return Matrix2f.from(m00, m01, m10, m11);
+    }
+
+    @Nonnull
+    @Override
+    public Matrix2d toDouble() {
+        return Matrix2d.from(m00, m01, m10, m11);
+    }
+
+    @Nonnull
+    @Override
+    public String toString() {
+        return m00 + " " + m01 + "\n" + m10 + " " + m11;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Matrix2#E#)) {
+            return false;
+        }
+        final Matrix2#E# matrix2 = (Matrix2#E#) o;
+        if (#ET#.compare(matrix2.m00, m00) != 0) {
+            return false;
+        }
+        if (#ET#.compare(matrix2.m01, m01) != 0) {
+            return false;
+        }
+        if (#ET#.compare(matrix2.m10, m10) != 0) {
+            return false;
+        }
+        if (#ET#.compare(matrix2.m11, m11) != 0) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        if (!hashed) {
+            int result = (m00 != +0.0f ? #ET#.hashCode(m00) : 0);
+            result = 31 * result + (m01 != +0.0f ? #ET#.hashCode(m01) : 0);
+            result = 31 * result + (m10 != +0.0f ? #ET#.hashCode(m10) : 0);
+            hashCode = 31 * result + (m11 != +0.0f ? #ET#.hashCode(m11) : 0);
+            hashed = true;
+        }
+        return hashCode;
+    }
+
+    @Nonnull
+    @Override
+    public Matrix2#E# clone() {
+        return Matrix2#E#.from(this);
+    }
+
+    @Nonnull
+    public static Matrix2#E# from(#e# n) {
+         return n == 0 ? ZERO : new Matrix2#E#(n, n, n, n);
+    }
+
+    @Nonnull
+    public static Matrix2#E# from(Matrix2#E# m) {
+        return from(
+            m.m00, m.m01,
+            m.m10, m.m11
+        );
+    }
+
+    @Nonnull
+    public static Matrix2#E# from(Matrix3#E# m) {
+        return from(
+            m.get(0, 0), m.get(0, 1),
+            m.get(1, 0), m.get(1, 1)
+        );
+    }
+
+    @Nonnull
+    public static Matrix2#E# from(Matrix4#E# m) {
+        return from(
+            m.get(0, 0), m.get(0, 1),
+            m.get(1, 0), m.get(1, 1)
+        );
+    }
+
+    @Nonnull
+    public static Matrix2#E# from(MatrixN#E# m) {
+        return from(
+            m.get(0, 0), m.get(0, 1),
+            m.get(1, 0), m.get(1, 1)
+        );
+    }
+
+    @Nonnull
+    public static Matrix2#E# from(
+        #EOverload# m00, #EOverload# m01,
+        #EOverload# m10, #EOverload# m11) {
+        return from(
+            (#e#) m00, (#e#) m01,
+            (#e#) m10, (#e#) m11
+        );
+    }
+
+    @Nonnull
+    public static Matrix2#E# from(#e# m00, #e# m01, #e# m10, #e# m11) {
+         return m00 == 0 && m01 == 0 && m10 == 0 && m11 == 0 ? ZERO : new Matrix2#E#(m00, m01, m10, m11);
+    }
+
+    @Nonnull
+    public static Matrix2#E# fromDiagonal(#e# m00, #e# m11) {
+         return m00 == 0 && m11 == 0 ? ZERO : new Matrix2#E#(m00, 0, 0, m11);
+    }
+
+    @Nonnull
+    public static Matrix2#E# createScaling(#EOverload# scale) {
+        return createScaling((#e#) scale);
+    }
+
+    @Nonnull
+    public static Matrix2#E# createScaling(#e# scale) {
+        return createScaling(scale, scale);
+    }
+
+    @Nonnull
+    public static Matrix2#E# createScaling(Vector2#E# v) {
+        return createScaling(v.getX(), v.getY());
+    }
+
+    @Nonnull
+    public static Matrix2#E# createScaling(#EOverload# x, #EOverload# y) {
+        return createScaling((#e#) x, (#e#) y);
+    }
+
+    @Nonnull
+    public static Matrix2#E# createScaling(#e# x, #e# y) {
+        return Matrix2#E#.from(
+                x, 0,
+                0, y);
+    }
+
+    @Nonnull
+    public static Matrix2#E# createTranslation(#EOverload# x) {
+        return createTranslation((#e#) x);
+    }
+
+    @Nonnull
+    public static Matrix2#E# createTranslation(#e# x) {
+        return Matrix2#E#.from(
+                1, x,
+                0, 1);
+    }
+
+    @Nonnull
+    public static Matrix2#E# createRotation(Complex#E# rot) {
+        rot = rot.normalize();
+        return Matrix2#E#.from(
+                rot.getX(), -rot.getY(),
+                rot.getY(), rot.getX());
+    }
+}
