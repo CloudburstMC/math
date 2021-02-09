@@ -77,26 +77,26 @@
     <distributionManagement>
         <repository>
             <id>releases</id>
-            <name>nukkitx-releases</name>
-            <url>https://repo.nukkitx.com/release</url>
+            <name>opencollab-releases</name>
+            <url>https://repo.opencollab.dev/release</url>
         </repository>
         <snapshotRepository>
             <id>snapshots</id>
-            <name>nukkitx-snapshots</name>
-            <url>https://repo.nukkitx.com/snapshot</url>
+            <name>opencollab-snapshots</name>
+            <url>https://repo.opencollab.dev/snapshot</url>
         </snapshotRepository>
     </distributionManagement>
 
     <!-- Continuous integration -->
     <ciManagement>
         <system>jenkins</system>
-        <url>https://ci.nukkitx.com/job/NukkitX/job/math</url>
+        <url>https://ci.opencollab.dev/job/NukkitX/job/math</url>
     </ciManagement>
 
     <!-- Issue management -->
     <issueManagement>
         <system>github</system>
-        <url>https://github.com/flow/math/issues</url>
+        <url>https://github.com/CloudburstMC/math/issues</url>
     </issueManagement>
 
     <!-- Project dependencies -->
