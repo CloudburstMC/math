@@ -9,7 +9,7 @@ Immutable math library for Java that offers easy conversion between math types, 
 ## Source Code
 The latest and greatest source can be found here on [GitHub](https://github.com/CloudburstMC/math). If you are using Git, use this command to clone the project:
 
-    git clone git://github.com/NukkitX/math.git
+    git clone git://github.com/CloudburstMC/math.git
 
 Or download the latest [development archive](https://github.com/CloudburstMC/math/archive/develop.zip) or the latest [stable archive](https://github.com/CloudburstMC/math/archive/master.zip).
 
