@@ -372,6 +372,7 @@
                             <Specification-Title>${project.name}</Specification-Title>
                             <Specification-Version>${project.version}+${ciSystem}-b${buildNumber}.git-${commit}</Specification-Version>
                             <Specification-Vendor>${project.organization.name} - ${project.organization.url}</Specification-Vendor>
+                            <Automatic-Module-Name>${project.groupId}.${project.artifactId}</Automatic-Module-Name>
                         </manifestEntries>
                     </archive>
                 </configuration>
