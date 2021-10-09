@@ -6,7 +6,7 @@
     <name>Math</name>
     <groupId>org.cloudburstmc</groupId>
     <artifactId>math</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
     <packaging>jar</packaging>
     <inceptionYear>2013</inceptionYear>
     <url>https://github.com/CloudburstMC/math</url>
