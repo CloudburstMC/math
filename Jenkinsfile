@@ -22,7 +22,7 @@ pipeline {
 
         stage ('Deploy') {
             when {
-                branch "master"
+                branch "old/nukkitx"
             }
             steps {
                 sh 'mvn javadoc:javadoc javadoc:jar source:jar deploy -DskipTests'
