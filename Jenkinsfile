@@ -5,7 +5,7 @@ pipeline {
         jdk 'Java 8'
     }
     options {
-        buildDiscarder(logRotator(artifactNumToKeepStr: '5'))
+        buildDiscarder(logRotator(artifactNumToKeepStr: '1'))
     }
     stages {
         stage ('Build') {
@@ -15,7 +15,6 @@ pipeline {
             post {
                 success {
                     junit 'target/surefire-reports/**/*.xml'
-                    archiveArtifacts artifacts: 'target/math-*.jar', fingerprint: true
                 }
             }
         }
@@ -25,10 +24,25 @@ pipeline {
                 branch "old/nukkitx"
             }
             steps {
-                sh 'mvn javadoc:javadoc javadoc:jar source:jar deploy -DskipTests'
-                step([$class: 'JavadocArchiver',
-                        javadocDir: 'target/site/apidocs',
-                        keepAll: false])
+                rtMavenDeployer(
+                        id: "maven-deployer",
+                        serverId: "opencollab-artifactory",
+                        releaseRepo: "maven-releases",
+                        snapshotRepo: "maven-snapshots"
+                )
+                rtMavenResolver(
+                        id: "maven-resolver",
+                        serverId: "opencollab-artifactory",
+                        releaseRepo: "maven-deploy-release",
+                        snapshotRepo: "maven-deploy-snapshot"
+                )
+                rtMavenRun(
+                        pom: 'pom.xml',
+                        goals: 'javadoc:jar javadoc:javadoc source:jar install',
+                        deployerId: "maven-deployer",
+                        resolverId: "maven-resolver"
+                )
+                step([$class: 'JavadocArchiver', javadocDir: 'target/site/apidocs', keepAll: false])
             }
         }
     }
