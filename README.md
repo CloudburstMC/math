@@ -1,17 +1,17 @@
-# Math [![License](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)][License] [![Build Status](https://ci.nukkitx.com/job/NukkitX/job/math/job/master/badge/icon)](https://ci.nukkitx.com/job/NukkitX/job/math/job/master/)
+# Math [![License](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)][License] [![Build Status](https://ci.opencollab.dev/job/NukkitX/job/math/job/master/badge/icon)](https://ci.opencollab.dev/job/NukkitX/job/math/job/master/)
 
 Immutable math library for Java that offers easy conversion between math types, fast trigonometric functions, vectors, matrices, complex numbers, quaternions, and operation chaining, with a focus on games and computer graphics.
 
 ## Getting Started
 * [Official documentation](#documentation)
-* [Issues tracker](https://github.com/NukkitX/math/issues)
+* [Issues tracker](https://github.com/CloudburstMC/math/issues)
 
 ## Source Code
-The latest and greatest source can be found here on [GitHub](https://github.com/NukkitX/math). If you are using Git, use this command to clone the project:
+The latest and greatest source can be found here on [GitHub](https://github.com/CloudburstMC/math). If you are using Git, use this command to clone the project:
 
-    git clone git://github.com/NukkitX/math.git
+    git clone git://github.com/CloudburstMC/math.git
 
-Or download the latest [development archive](https://github.com/NukkitX/math/archive/develop.zip) or the latest [stable archive](https://github.com/NukkitX/math/archive/master.zip).
+Or download the latest [development archive](https://github.com/CloudburstMC/math/archive/develop.zip) or the latest [stable archive](https://github.com/CloudburstMC/math/archive/master.zip).
 
 ## Test Dependencies
 The following dependencies are only needed if you compiling the tests included with this project. Gotta test 'em all!
@@ -33,35 +33,35 @@ Are you a talented programmer looking to contribute some code? We'd love the hel
 If you're using [Maven](https://maven.apache.org/download.html) to manage project dependencies, simply include the following in your `pom.xml` file:
 
     <repository>
-        <id>nukkitx-repo</id>
-        <url>https://repo.nukkitx.com/maven-releases</url>
+        <id>opencollab-repo</id>
+        <url>https://repo.opencollab.dev/maven-releases</url>
     </repository>
 
     <dependency>
-        <groupId>com.nukkitx</groupId>
+        <groupId>org.cloudburstmc</groupId>
         <artifactId>math</artifactId>
-        <version>1.0.4-SNAPSHOT</version>
+        <version>1.1.0</version>
     </dependency>
 
 If you're using [Gradle](https://www.gradle.org/) to manage project dependencies, simply include the following in your `build.gradle` file:
 
     repositories {
         maven {
-          url 'https://repo.nukkitx.com/maven-releases'
+          url 'https://repo.opencollab.dev/maven-releases'
         }
     }
     dependencies {
-        compile 'com.nukkitx:math:1.0.4-SNAPSHOT'
+        compile 'org.cloudburstmc:math:1.1.0'
     }
 
 If you plan on using snapshots and do not already have the snapshot repo in your repository list, you will need to add this as well:
 
     https://oss.sonatype.org/content/groups/public/
 
-If you'd prefer to manually import the latest .jar file, you can get it [here](https://ci.nukkitx.com/job/NukkitX/job/math/job/master).
+If you'd prefer to manually import the latest .jar file, you can get it [here](https://ci.opencollab.dev/job/NukkitX/job/math/job/master).
 
 ## Documentation
-Want to get friendly with the project and put it to good use? Check out the latest [Javadocs](https://ci.nukkitx.com/job/NukkitX/job/math/job/master/javadoc).
+Want to get friendly with the project and put it to good use? Check out the latest [Javadocs](https://ci.opencollab.dev/job/NukkitX/job/math/job/master/javadoc).
 
 To generate Javadocs with Maven, use the `mvn javadoc:javadoc` command. To view the Javadocs simply go to `target/site/apidocs/` and open `index.html` in a web browser.
 
