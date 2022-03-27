@@ -80,19 +80,6 @@
         <url>https://github.com/CloudburstMC/math</url>
     </scm>
 
-    <distributionManagement>
-        <repository>
-            <id>releases</id>
-            <name>opencollab-releases</name>
-            <url>https://repo.opencollab.dev/release</url>
-        </repository>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <name>opencollab-snapshots</name>
-            <url>https://repo.opencollab.dev/snapshot</url>
-        </snapshotRepository>
-    </distributionManagement>
-
     <!-- Continuous integration -->
     <ciManagement>
         <system>jenkins</system>
