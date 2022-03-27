@@ -12,7 +12,7 @@ pipeline {
             when { not { anyOf {
                 branch 'master'
                 branch 'develop'
-                branch 'rewrite'
+                branch 'feature/2.0'
             }}}
 
             steps {
