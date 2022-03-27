@@ -9,9 +9,16 @@ pipeline {
     }
     stages {
         stage ('Build') {
+            when { not { anyOf {
+                branch 'master'
+                branch 'develop'
+                branch 'rewrite'
+            }}}
+
             steps {
                 sh 'mvn clean package'
             }
+
             post {
                 success {
                     junit '**/target/surefire-reports/**/*.xml'
@@ -24,14 +31,68 @@ pipeline {
             when {
                 anyOf {
                     branch 'master'
+                    branch 'develop'
                     branch 'feature/2.0'
                 }
             }
-            steps {
-                sh 'mvn javadoc:javadoc javadoc:jar source:jar deploy -DskipTests'
-                step([$class: 'JavadocArchiver',
-                        javadocDir: 'target/site/apidocs',
-                        keepAll: false])
+
+            stages {
+                stage('Setup') {
+                    steps {
+                        rtMavenDeployer(
+                                id: "maven-deployer",
+                                serverId: "opencollab-artifactory",
+                                releaseRepo: "maven-releases",
+                                snapshotRepo: "maven-snapshots"
+                        )
+                        rtMavenResolver(
+                                id: "maven-resolver",
+                                serverId: "opencollab-artifactory",
+                                releaseRepo: "maven-deploy-release",
+                                snapshotRepo: "maven-deploy-snapshot"
+                        )
+                    }
+                }
+
+                stage('Release') {
+                    when {
+                        branch 'master'
+                    }
+
+                    steps {
+                        rtMavenRun(
+                                pom: 'pom.xml',
+                                goals: 'javadoc:jar source:jar install -am -DskipTests',
+                                deployerId: "maven-deployer",
+                                resolverId: "maven-resolver"
+                        )
+                    }
+                }
+
+                stage('Snapshot') {
+                    when {
+                        anyOf {
+                            branch 'develop'
+                            branch 'feature/2.0'
+                        }
+                    }
+                    steps {
+                        rtMavenRun(
+                                pom: 'pom.xml',
+                                goals: 'javadoc:jar source:jar install -am -DskipTests',
+                                deployerId: "maven-deployer",
+                                resolverId: "maven-resolver"
+                        )
+                    }
+                }
+
+                stage('Publish') {
+                    steps {
+                        rtPublishBuildInfo(
+                                serverId: "opencollab-artifactory"
+                        )
+                    }
+                }
             }
         }
     }
