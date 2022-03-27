@@ -14,8 +14,8 @@ pipeline {
             }
             post {
                 success {
-                    junit 'target/surefire-reports/**/*.xml'
-                    archiveArtifacts artifacts: 'target/math-*.jar', fingerprint: true
+                    junit '**/target/surefire-reports/**/*.xml'
+                    archiveArtifacts artifacts: '**/target/*.jar', excludes: '**/target/original-*.jar', fingerprint: true
                 }
             }
         }
