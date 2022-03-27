@@ -1,0 +1,139 @@
+package org.cloudburstmc.math.immutable.vector;
+
+import org.cloudburstmc.math.GenericMath;
+import org.cloudburstmc.math.vector.*;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+
+import java.io.Serializable;
+
+@Immutable
+@ParametersAreNonnullByDefault
+public class ImmutableVector4#E# extends Vector4#E# {
+    private static final long serialVersionUID = 1;
+    private final #e# x;
+    private final #e# y;
+    private final #e# z;
+    private final #e# w;
+    private transient volatile boolean hashed = false;
+    private transient volatile int hashCode = 0;
+
+    ImmutableVector4#E#(#e# x, #e# y, #e# z, #e# w) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.w = w;
+    }
+
+    public #e# getX() {
+        return x;
+    }
+
+    public #e# getY() {
+        return y;
+    }
+
+    public #e# getZ() {
+        return z;
+    }
+
+    public #e# getW() {
+        return w;
+    }
+
+    @Nonnull
+    public Vector4#E# add(#e# x, #e# y, #e# z, #e# w) {
+        return Vector4#E#.from(this.x + x, this.y + y, this.z + z, this.w + w);
+    }
+
+    @Nonnull
+    public Vector4#E# sub(#e# x, #e# y, #e# z, #e# w) {
+        return Vector4#E#.from(this.x - x, this.y - y, this.z - z, this.w - w);
+    }
+
+    @Nonnull
+    public Vector4#E# mul(#e# x, #e# y, #e# z, #e# w) {
+        return Vector4#E#.from(this.x * x, this.y * y, this.z * z, this.w * w);
+    }
+
+    @Nonnull
+    public Vector4#E# div(#e# x, #e# y, #e# z, #e# w) {
+        return Vector4#E#.from(this.x / x, this.y / y, this.z / z, this.w / w);
+    }
+
+    @Nonnull
+    public Vector4#E# project(#e# x, #e# y, #e# z, #e# w) {
+        final #e# lengthSquared = x * x + y * y + z * z + w * w;
+        if (lengthSquared == 0) {
+            throw new ArithmeticException("Cannot project onto the zero vector");
+        }
+        final #EDecEqui# a = (#EDecEqui#) dot(x, y, z, w) / lengthSquared;
+        return Vector4#E#.from(a * x, a * y, a * z, a * w);
+    }
+
+    @Nonnull
+    @Override
+    public Vector4#E# pow(#e# power) {
+        return Vector4#E#.from(Math.pow(x, power), Math.pow(y, power), Math.pow(z, power), Math.pow(w, power));
+    }
+
+    @Nonnull
+    @Override
+    public Vector4#E# abs() {
+        return Vector4#E#.from(Math.abs(x), Math.abs(y), Math.abs(z), Math.abs(w));
+    }
+
+    @Nonnull
+    @Override
+    public Vector4#E# negate() {
+        return Vector4#E#.from(-x, -y, -z, -w);
+    }
+
+    @Nonnull
+    public Vector4#E# min(#e# x, #e# y, #e# z, #e# w) {
+        return Vector4#E#.from(Math.min(this.x, x), Math.min(this.y, y), Math.min(this.z, z), Math.min(this.w, w));
+    }
+
+    @Nonnull
+    public Vector4#E# max(#e# x, #e# y, #e# z, #e# w) {
+        return Vector4#E#.from(Math.max(this.x, x), Math.max(this.y, y), Math.max(this.z, z), Math.max(this.w, w));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Vector4#E#)) {
+            return false;
+        }
+        final Vector4#E# vector4 = (Vector4#E#) o;
+        if (vector4.getX() != x) {
+            return false;
+        }
+        if (vector4.getY() != y) {
+            return false;
+        }
+        if (vector4.getZ() != z) {
+            return false;
+        }
+        if (vector4.getW() != w) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        if (!hashed) {
+            int result = (x != +0.0f ? #ET#.hashCode(x) : 0);
+            result = 31 * result + (y != +0.0f ? #ET#.hashCode(y) : 0);
+            result = 31 * result + (z != +0.0f ? #ET#.hashCode(z) : 0);
+            hashCode = 31 * result + (w != +0.0f ? #ET#.hashCode(w) : 0);
+            hashed = true;
+        }
+        return hashCode;
+    }
+}

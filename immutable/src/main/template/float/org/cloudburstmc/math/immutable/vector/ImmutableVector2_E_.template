@@ -1,0 +1,171 @@
+package org.cloudburstmc.math.immutable.vector;
+
+import org.cloudburstmc.math.GenericMath;
+import org.cloudburstmc.math.TrigMath;
+import org.cloudburstmc.math.vector.*;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+
+import java.io.Serializable;
+import java.util.Random;
+
+@Immutable
+@ParametersAreNonnullByDefault
+public class ImmutableVector2#E# extends Vector2#E# {
+    private static final long serialVersionUID = 1;
+    private final #e# x;
+    private final #e# y;
+    private transient volatile boolean hashed = false;
+    private transient volatile int hashCode = 0;
+
+    ImmutableVector2#E#(#e# x, #e# y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    @Override
+    public #e# getX() {
+        return x;
+    }
+
+    @Override
+    public #e# getY() {
+        return y;
+    }
+
+    @Nonnull
+    public Vector2#E# add(#e# x, #e# y) {
+        return Vector2#E#.from(this.getX() + x, this.getY() + y);
+    }
+
+    @Nonnull
+    public Vector2#E# sub(#e# x, #e# y) {
+        return Vector2#E#.from(this.getX() - x, this.getY() - y);
+    }
+
+    @Nonnull
+    public Vector2#E# mul(#e# x, #e# y) {
+        return Vector2#E#.from(this.getX() * x, this.getY() * y);
+    }
+
+    @Nonnull
+    public Vector2#E# div(#e# x, #e# y) {
+        return Vector2#E#.from(this.getX() / x, this.getY() / y);
+    }
+
+    @Nonnull
+    public Vector2#E# project(#e# x, #e# y) {
+        final #e# lengthSquared = x * x + y * y;
+        if (Math.abs(lengthSquared) < #Eeps#) {
+            throw new ArithmeticException("Cannot project onto the zero vector");
+        }
+        final #e# a = dot(x, y) / lengthSquared;
+        return Vector2#E#.from(a * x, a * y);
+    }
+
+    @Nonnull
+    @Override
+    public Vector2#E# pow(#e# power) {
+        return Vector2#E#.from(Math.pow(this.getX(), power), Math.pow(this.getY(), power));
+    }
+
+    @Nonnull
+    @Override
+    public Vector2#E# ceil() {
+        return Vector2#E#.from(Math.ceil(this.getX()), Math.ceil(this.getY()));
+    }
+
+    @Nonnull
+    @Override
+    public Vector2#E# floor() {
+        return Vector2#E#.from(GenericMath.floor(this.getX()), GenericMath.floor(this.getY()));
+    }
+
+    @Nonnull
+    @Override
+    public Vector2#E# round() {
+        return Vector2#E#.from(Math.round(this.getX()), Math.round(this.getY()));
+    }
+
+    @Nonnull
+    @Override
+    public Vector2#E# abs() {
+        return Vector2#E#.from(Math.abs(this.getX()), Math.abs(this.getY()));
+    }
+
+    @Nonnull
+    @Override
+    public Vector2#E# negate() {
+        return Vector2#E#.from(-this.getX(), -this.getY());
+    }
+
+    @Nonnull
+    public Vector2#E# min(#e# x, #e# y) {
+        return Vector2#E#.from(Math.min(this.getX(), x), Math.min(this.getY(), y));
+    }
+
+    @Nonnull
+    public Vector2#E# max(#e# x, #e# y) {
+        return Vector2#E#.from(Math.max(this.getX(), x), Math.max(this.getY(), y));
+    }
+
+    @Nonnull
+    public Vector2#E# north(#e# v) {
+        return Vector2#E#.from(this.getX(), this.getY() - v);
+    }
+
+    @Nonnull
+    public Vector2#E# south(#e# v) {
+        return Vector2#E#.from(this.getX(), this.getY() + v);
+    }
+
+    @Nonnull
+    public Vector2#E# east(#e# v) {
+        return Vector2#E#.from(this.getX() + v, this.getY());
+    }
+
+    @Nonnull
+    public Vector2#E# west(#e# v) {
+        return Vector2#E#.from(this.getX() - v, this.getY());
+    }
+
+    @Nonnull
+    @Override
+    public Vector2#E# normalize() {
+        final #e# length = length();
+        if (Math.abs(length) < #Eeps#) {
+            throw new ArithmeticException("Cannot normalize the zero vector");
+        }
+        return Vector2#E#.from(this.getX() / length, this.getY() / length);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Vector2#E#)) {
+            return false;
+        }
+        final Vector2#E# vector2 = (Vector2#E#) o;
+        if (#ET#.compare(vector2.getX(), x) != 0) {
+            return false;
+        }
+        if (#ET#.compare(vector2.getY(), y) != 0) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        if (!hashed) {
+            final int result = (x != +0.0f ? #ET#.hashCode(x) : 0);
+            hashCode = 31 * result + (y != +0.0f ? #ET#.hashCode(y) : 0);
+            hashed = true;
+        }
+        return hashCode;
+    }
+}

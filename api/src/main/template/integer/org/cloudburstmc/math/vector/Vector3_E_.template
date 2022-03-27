@@ -1,0 +1,410 @@
+package org.cloudburstmc.math.vector;
+
+import org.cloudburstmc.math.GenericMath;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+
+import java.io.Serializable;
+
+@Immutable
+@ParametersAreNonnullByDefault
+public abstract class Vector3#E# implements Vector#E#, Comparable<Vector3#E#>, Serializable, Cloneable {
+    public static final Vector3#E# ZERO = Vector3#E#.from(0, 0, 0);
+    public static final Vector3#E# UNIT_X = Vector3#E#.from(1, 0, 0);
+    public static final Vector3#E# UNIT_Y = Vector3#E#.from(0, 1, 0);
+    public static final Vector3#E# UNIT_Z = Vector3#E#.from(0, 0, 1);
+    public static final Vector3#E# ONE = Vector3#E#.from(1, 1, 1);
+    public static final Vector3#E# RIGHT = UNIT_X;
+    public static final Vector3#E# UP = UNIT_Y;
+    public static final Vector3#E# FORWARD = UNIT_Z;
+
+    public abstract #e# getX();
+
+    public abstract #e# getY();
+
+    public abstract #e# getZ();
+
+    @Nonnull
+    public Vector3#E# add(Vector3#E# v) {
+        return add(v.getX(), v.getY(), v.getZ());
+    }
+
+    @Nonnull
+    public Vector3#E# add(#EOverload# x, #EOverload# y, #EOverload# z) {
+        return add(#EFloorFunc#(x), #EFloorFunc#(y), #EFloorFunc#(z));
+    }
+
+    @Nonnull
+    public abstract Vector3#E# add(#e# x, #e# y, #e# z);
+
+    @Nonnull
+    public Vector3#E# sub(Vector3#E# v) {
+        return sub(v.getX(), v.getY(), v.getZ());
+    }
+
+    @Nonnull
+    public Vector3#E# sub(#EOverload# x, #EOverload# y, #EOverload# z) {
+        return sub(#EFloorFunc#(x), #EFloorFunc#(y), #EFloorFunc#(z));
+    }
+
+    @Nonnull
+    public abstract Vector3#E# sub(#e# x, #e# y, #e# z);
+
+    @Nonnull
+    public Vector3#E# mul(#EOverload# a) {
+        return mul(#EFloorFunc#(a));
+    }
+
+    @Nonnull
+    @Override
+    public Vector3#E# mul(#e# a) {
+        return mul(a, a, a);
+    }
+
+    @Nonnull
+    public Vector3#E# mul(Vector3#E# v) {
+        return mul(v.getX(), v.getY(), v.getZ());
+    }
+
+    @Nonnull
+    public Vector3#E# mul(#EOverload# x, #EOverload# y, #EOverload# z) {
+        return mul(#EFloorFunc#(x), #EFloorFunc#(y), #EFloorFunc#(z));
+    }
+
+    @Nonnull
+    public abstract Vector3#E# mul(#e# x, #e# y, #e# z);
+
+    @Nonnull
+    public Vector3#E# div(#EOverload# a) {
+        return div(#EFloorFunc#(a));
+    }
+
+    @Nonnull
+    @Override
+    public Vector3#E# div(#e# a) {
+        return div(a, a, a);
+    }
+
+    @Nonnull
+    public Vector3#E# div(Vector3#E# v) {
+        return div(v.getX(), v.getY(), v.getZ());
+    }
+
+    @Nonnull
+    public Vector3#E# div(#EOverload# x, #EOverload# y, #EOverload# z) {
+        return div(#EFloorFunc#(x), #EFloorFunc#(y), #EFloorFunc#(z));
+    }
+
+    @Nonnull
+    public abstract Vector3#E# div(#e# x, #e# y, #e# z);
+
+    public #e# dot(Vector3#E# v) {
+        return dot(v.getX(), v.getY(), v.getZ());
+    }
+
+    public #e# dot(#EOverload# x, #EOverload# y, #EOverload# z) {
+        return dot(#EFloorFunc#(x), #EFloorFunc#(y), #EFloorFunc#(z));
+    }
+
+    public #e# dot(#e# x, #e# y, #e# z) {
+        return this.getX() * x + this.getY() * y + this.getZ() * z;
+    }
+
+    @Nonnull
+    public Vector3#E# project(Vector3#E# v) {
+        return project(v.getX(), v.getY(), v.getZ());
+    }
+
+    @Nonnull
+    public Vector3#E# project(#EOverload# x, #EOverload# y, #EOverload# z) {
+        return project(#EFloorFunc#(x), #EFloorFunc#(y), #EFloorFunc#(z));
+    }
+
+    @Nonnull
+    public abstract Vector3#E# project(#e# x, #e# y, #e# z);
+
+    @Nonnull
+    public Vector3#E# cross(Vector3#E# v) {
+        return cross(v.getX(), v.getY(), v.getZ());
+    }
+
+    @Nonnull
+    public Vector3#E# cross(#EOverload# x, #EOverload# y, #EOverload# z) {
+        return cross(#EFloorFunc#(x), #EFloorFunc#(y), #EFloorFunc#(z));
+    }
+
+    @Nonnull
+    public abstract Vector3#E# cross(#e# x, #e# y, #e# z);
+
+    @Nonnull
+    public Vector3#E# pow(#EOverload# pow) {
+        return pow(#EFloorFunc#(pow));
+    }
+
+    @Nonnull
+    @Override
+    public abstract Vector3#E# pow(#e# power);
+
+    @Nonnull
+    @Override
+    public abstract Vector3#E# abs();
+
+    @Nonnull
+    @Override
+    public abstract Vector3#E# negate();
+
+    @Nonnull
+    public Vector3#E# min(Vector3#E# v) {
+        return min(v.getX(), v.getY(), v.getZ());
+    }
+
+    @Nonnull
+    public Vector3#E# min(#EOverload# x, #EOverload# y, #EOverload# z) {
+        return min(#EFloorFunc#(x), #EFloorFunc#(y), #EFloorFunc#(z));
+    }
+
+    @Nonnull
+    public abstract Vector3#E# min(#e# x, #e# y, #e# z);
+
+    @Nonnull
+    public Vector3#E# max(Vector3#E# v) {
+        return max(v.getX(), v.getY(), v.getZ());
+    }
+
+    @Nonnull
+    public Vector3#E# max(#EOverload# x, #EOverload# y, #EOverload# z) {
+        return max(#EFloorFunc#(x), #EFloorFunc#(y), #EFloorFunc#(z));
+    }
+
+    @Nonnull
+    public abstract Vector3#E# max(#e# x, #e# y, #e# z);
+
+    public #e# distanceSquared(Vector3#E# v) {
+        return distanceSquared(v.getX(), v.getY(), v.getZ());
+    }
+
+    public #e# distanceSquared(#EOverload# x, #EOverload# y, #EOverload# z) {
+        return distanceSquared(#EFloorFunc#(x), #EFloorFunc#(y), #EFloorFunc#(z));
+    }
+
+    public #e# distanceSquared(#e# x, #e# y, #e# z) {
+        final #e# dx = this.getX() - x;
+        final #e# dy = this.getY() - y;
+        final #e# dz = this.getZ() - z;
+        return dx * dx + dy * dy + dz * dz;
+    }
+
+    public #EDecEqui# distance(Vector3#E# v) {
+        return distance(v.getX(), v.getY(), v.getZ());
+    }
+
+    public #EDecEqui# distance(#EOverload# x, #EOverload# y, #EOverload# z) {
+        return distance(#EFloorFunc#(x), #EFloorFunc#(y), #EFloorFunc#(z));
+    }
+
+    public #EDecEqui# distance(#e# x, #e# y, #e# z) {
+        return (#EDecEqui#) Math.sqrt(distanceSquared(x, y, z));
+    }
+
+    @Nonnull
+    public Vector3#E# up() {
+        return up(1);
+    }
+
+    @Nonnull
+    public abstract Vector3#E# up(#e# v);
+
+    @Nonnull
+    public Vector3#E# down() {
+        return down(1);
+    }
+
+    @Nonnull
+    public abstract Vector3#E# down(#e# v);
+
+    @Nonnull
+    public Vector3#E# north() {
+        return north(1);
+    }
+
+    @Nonnull
+    public abstract Vector3#E# north(#e# v);
+
+    @Nonnull
+    public Vector3#E# south() {
+        return south(1);
+    }
+
+    @Nonnull
+    public abstract Vector3#E# south(#e# v);
+
+    @Nonnull
+    public Vector3#E# east() {
+        return east(1);
+    }
+
+    @Nonnull
+    public abstract Vector3#E# east(#e# v);
+
+    @Nonnull
+    public Vector3#E# west() {
+        return west(1);
+    }
+
+    @Nonnull
+    public abstract Vector3#E# west(#e# v);
+
+    @Override
+    public #e# lengthSquared() {
+        return this.getX() * this.getX() + this.getY() * this.getY() + this.getZ() * this.getZ();
+    }
+
+    @Override
+    public #EDecEqui# length() {
+        return (#EDecEqui#) Math.sqrt(lengthSquared());
+    }
+
+    /**
+     * Returns the axis with the minimal value.
+     *
+     * @return {@link int} axis with minimal value
+     */
+    @Override
+    public int getMinAxis() {
+        return this.getX() < this.getY() ? (this.getX() < this.getZ() ? 0 : 2) : (this.getY() < this.getZ() ? 1 : 2);
+    }
+
+    /**
+     * Returns the axis with the maximum value.
+     *
+     * @return {@link int} axis with maximum value
+     */
+    @Override
+    public int getMaxAxis() {
+        return this.getX() < this.getY() ? (this.getY() < this.getZ() ? 2 : 1) : (this.getX() < this.getZ() ? 2 : 0);
+    }
+
+    @Nonnull
+    public Vector2#E# toVector2() {
+        return Vector2#E#.from(this);
+    }
+
+    @Nonnull
+    public Vector2#E# toVector2(boolean useZ) {
+        return Vector2#E#.from(this.getX(), useZ ? this.getZ() : this.getY());
+    }
+
+    @Nonnull
+    public Vector4#E# toVector4() {
+        return toVector4(0);
+    }
+
+    @Nonnull
+    public Vector4#E# toVector4(#EOverload# w) {
+        return toVector4(#EFloorFunc#(w));
+    }
+
+    @Nonnull
+    public Vector4#E# toVector4(#e# w) {
+        return Vector4#E#.from(this, w);
+    }
+
+    @Nonnull
+    public VectorN#E# toVectorN() {
+        return VectorN#E#.from(this);
+    }
+
+    @Nonnull
+    @Override
+    public #e#[] toArray() {
+        return new #e#[]{this.getX(), this.getY(), this.getZ()};
+    }
+
+    @Nonnull
+    @Override
+    public Vector3i toInt() {
+        return Vector3i.from(this.getX(), this.getY(), this.getZ());
+    }
+
+    @Nonnull
+    @Override
+    public Vector3l toLong() {
+        return Vector3l.from(this.getX(), this.getY(), this.getZ());
+    }
+
+    @Nonnull
+    @Override
+    public Vector3f toFloat() {
+        return Vector3f.from(this.getX(), this.getY(), this.getZ());
+    }
+
+    @Nonnull
+    @Override
+    public Vector3d toDouble() {
+        return Vector3d.from(this.getX(), this.getY(), this.getZ());
+    }
+
+    @Override
+    public int compareTo(Vector3#E# v) {
+        return (int) (lengthSquared() - v.lengthSquared());
+    }
+
+    @Nonnull
+    @Override
+    public Vector3#E# clone() {
+        return Vector3#E#.from(this);
+    }
+
+    @Nonnull
+    @Override
+    public String toString() {
+        return "(" + this.getX() + ", " + this.getY() + ", " + this.getZ() + ")";
+    }
+
+    @Nonnull
+    public static Vector3#E# from(#e# n) {
+         return Vectors.createVector3#E#(n, n, n);
+    }
+
+    @Nonnull
+    public static Vector3#E# from(Vector2#E# v) {
+        return from(v, 0);
+    }
+
+    @Nonnull
+    public static Vector3#E# from(Vector2#E# v, #EOverload# z) {
+        return from(v, #EFloorFunc#(z));
+    }
+
+    @Nonnull
+    public static Vector3#E# from(Vector2#E# v, #e# z) {
+        return from(v.getX(), v.getY(), z);
+    }
+
+    @Nonnull
+    public static Vector3#E# from(Vector3#E# v) {
+        return from(v.getX(), v.getY(), v.getZ());
+    }
+
+    @Nonnull
+    public static Vector3#E# from(Vector4#E# v) {
+        return from(v.getX(), v.getY(), v.getZ());
+    }
+
+    @Nonnull
+    public static Vector3#E# from(VectorN#E# v) {
+        return from(v.get(0), v.get(1), v.size() > 2 ? v.get(2) : 0);
+    }
+
+    @Nonnull
+    public static Vector3#E# from(#EOverload# x, #EOverload# y, #EOverload# z) {
+        return from(#EFloorFunc#(x), #EFloorFunc#(y), #EFloorFunc#(z));
+    }
+
+    @Nonnull
+    public static Vector3#E# from(#e# x, #e# y, #e# z) {
+         return Vectors.createVector3#E#(x, y, z);
+    }
+}

@@ -1,0 +1,234 @@
+package org.cloudburstmc.math.immutable.imaginary;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.cloudburstmc.math.GenericMath;
+import org.cloudburstmc.math.TrigMath;
+import org.cloudburstmc.math.imaginary.Complex#E#;
+import org.cloudburstmc.math.vector.Vector2#E#;
+import org.cloudburstmc.math.vector.Vector3#E#;
+
+import java.io.Serializable;
+
+/**
+ * Represent a complex number of the form <code>x + yi</code>. The x and y components are stored as #e#s. This class is immutable.
+ */
+@ParametersAreNonnullByDefault
+public class ImmutableComplex#E# extends Complex#E# {
+    private static final long serialVersionUID = 1;
+    private final #e# x;
+    private final #e# y;
+    private transient volatile boolean hashed = false;
+    private transient volatile int hashCode = 0;
+
+    /**
+     * Constructs a new complex from the #e# components.
+     *
+     * @param x The x (real) component
+     * @param y The y (imaginary) component
+     */
+    ImmutableComplex#E#(#e# x, #e# y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    /**
+     * Gets the x (real) component of this complex.
+     *
+     * @return The x (real) component
+     */
+    public #e# getX() {
+        return x;
+    }
+
+    /**
+     * Gets the y (imaginary) component of this complex.
+     *
+     * @return The y (imaginary) component
+     */
+    public #e# getY() {
+        return y;
+    }
+
+    /**
+     * Adds the #e# components of another complex to this one.
+     *
+     * @param x The x (real) component of the complex to add
+     * @param y The y (imaginary) component of the complex to add
+     * @return A new complex, which is the sum of both
+     */
+    @Nonnull
+    public Complex#E# add(#e# x, #e# y) {
+        return Complex#E#.from(this.x + x, this.y + y);
+    }
+
+    /**
+     * Subtracts the #e# components of another complex from this one.
+     *
+     * @param x The x (real) component of the complex to subtract
+     * @param y The y (imaginary) component of the complex to subtract
+     * @return A new complex, which is the difference of both
+     */
+    @Nonnull
+    public Complex#E# sub(#e# x, #e# y) {
+        return Complex#E#.from(this.x - x, this.y - y);
+    }
+
+    /**
+     * Multiplies the components of this complex by a #e# scalar.
+     *
+     * @param a The multiplication scalar
+     * @return A new complex, which has each component multiplied by the scalar
+     */
+    @Nonnull
+    @Override
+    public Complex#E# mul(#e# a) {
+        return Complex#E#.from(x * a, y * a);
+    }
+
+    /**
+     * Multiplies the #e# components of another complex with this one.
+     *
+     * @param x The x (real) component of the complex to multiply with
+     * @param y The y (imaginary) component of the complex to multiply with
+     * @return A new complex, which is the product of both
+     */
+    @Nonnull
+    public Complex#E# mul(#e# x, #e# y) {
+        return Complex#E#.from(
+                this.x * x - this.y * y,
+                this.x * y + this.y * x);
+    }
+
+    /**
+     * Divides the components of this complex by a #e# scalar.
+     *
+     * @param a The division scalar
+     * @return A new complex, which has each component divided by the scalar
+     */
+    @Nonnull
+    @Override
+    public Complex#E# div(#e# a) {
+        return Complex#E#.from(x / a, y / a);
+    }
+
+    /**
+     * Divides this complex by the #e# components of another one.
+     *
+     * @param x The x (real) component of the complex to divide with
+     * @param y The y (imaginary) component of the complex to divide with
+     * @return The quotient of the two complexes
+     */
+    @Nonnull
+    public Complex#E# div(#e# x, #e# y) {
+        final #e# d = x * x + y * y;
+        return Complex#E#.from(
+                (this.x * x + this.y * y) / d,
+                (this.y * x - this.x * y) / d);
+    }
+
+    /**
+     * Returns the dot product of this complex with another one.
+     *
+     * @param c The complex to calculate the dot product with
+     * @return The dot product of the two complexes
+     */
+    public #e# dot(Complex#E# c) {
+        return dot(c.getX(), c.getY());
+    }
+
+    /**
+     * Returns the dot product of this complex with the #EOverload# components of another one.
+     *
+     * @param x The x (real) component of the complex to calculate the dot product with
+     * @param y The y (imaginary) component of the complex to calculate the dot product with
+     * @return The dot product of the two complexes
+     */
+    public #e# dot(#EOverload# x, #EOverload# y) {
+        return dot((#e#) x, (#e#) y);
+    }
+
+    /**
+     * Returns the dot product of this complex with the #e# components of another one.
+     *
+     * @param x The x (real) component of the complex to calculate the dot product with
+     * @param y The y (imaginary) component of the complex to calculate the dot product with
+     * @return The dot product of the two complexes
+     */
+    public #e# dot(#e# x, #e# y) {
+        return this.x * x + this.y * y;
+    }
+
+    /**
+     * Returns the conjugate of this complex. <br> Conjugation of a complex <code>a</code> is an operation returning complex <code>a'</code> such that <code>a' * a = a * a' = |a|<sup>2</sup></code> where
+     * <code>|a|<sup>2</sup></code> is squared length of <code>a</code>.
+     *
+     * @return A new complex, which is the conjugate of this one
+     */
+    @Nonnull
+    @Override
+    public Complex#E# conjugate() {
+        return Complex#E#.from(x, -y);
+    }
+
+    /**
+     * Returns the inverse of this complex. <br> Inversion of a complex <code>a</code> returns complex <code>a<sup>-1</sup> = a' / |a|<sup>2</sup></code> where <code>a'</code> is {@link #conjugate()
+     * conjugation} of <code>a</code>, and <code>|a|<sup>2</sup></code> is squared length of <code>a</code>. <br> For any complexes <code>a, b, c</code>, such that <code>a * b = c</code> equations
+     * <code>a<sup>-1</sup> * c = b</code> and <code>c * b<sup>-1</sup> = a</code> are true.
+     *
+     * @return A new complex, which is the inverse of this one
+     */
+    @Nonnull
+    @Override
+    public Complex#E# invert() {
+        final #e# lengthSquared = lengthSquared();
+        if (Math.abs(lengthSquared) < #Eeps#) {
+            throw new ArithmeticException("Cannot invert a complex of length zero");
+        }
+        return conjugate().div(lengthSquared);
+    }
+
+    /**
+     * Normalizes this complex.
+     *
+     * @return A new complex of unit length
+     */
+    @Nonnull
+    @Override
+    public Complex#E# normalize() {
+        final #e# length = length();
+        if (Math.abs(length) < #Eeps#) {
+            throw new ArithmeticException("Cannot normalize the zero complex");
+        }
+        return Complex#E#.from(x / length, y / length);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Complex#E#)) {
+            return false;
+        }
+        final Complex#E# complex = (Complex#E#) o;
+        if (#ET#.compare(complex.getX(), x) != 0) {
+            return false;
+        }
+        if (#ET#.compare(complex.getY(), y) != 0) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        if (!hashed) {
+            final int result = (x != +0.0f ? #ET#.hashCode(x) : 0);
+            hashCode = 31 * result + (y != +0.0f ? #ET#.hashCode(y) : 0);
+            hashed = true;
+        }
+        return hashCode;
+    }
+}
