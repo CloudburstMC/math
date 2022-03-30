@@ -12,7 +12,6 @@ pipeline {
             when { not { anyOf {
                 branch 'master'
                 branch 'develop'
-                branch 'feature/2.0'
             }}}
 
             steps {
@@ -32,7 +31,6 @@ pipeline {
                 anyOf {
                     branch 'master'
                     branch 'develop'
-                    branch 'feature/2.0'
                 }
             }
 
@@ -73,7 +71,6 @@ pipeline {
                     when {
                         anyOf {
                             branch 'develop'
-                            branch 'feature/2.0'
                         }
                     }
                     steps {
