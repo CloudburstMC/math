@@ -1,0 +1,197 @@
+package org.cloudburstmc.math.immutable.vector;
+
+import org.cloudburstmc.math.GenericMath;
+import org.cloudburstmc.math.TrigMath;
+import org.cloudburstmc.math.vector.*;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+
+import java.io.Serializable;
+import java.util.Random;
+
+@Immutable
+@ParametersAreNonnullByDefault
+public class ImmutableVector3#E# extends Vector3#E# {
+    private static final long serialVersionUID = 1;
+    private final #e# x;
+    private final #e# y;
+    private final #e# z;
+    private transient volatile boolean hashed = false;
+    private transient volatile int hashCode = 0;
+
+    ImmutableVector3#E#(#e# x, #e# y, #e# z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+
+    @Override
+    public #e# getX() {
+        return x;
+    }
+
+    @Override
+    public #e# getY() {
+        return y;
+    }
+
+    @Override
+    public #e# getZ() {
+        return z;
+    }
+
+    @Nonnull
+    public Vector3#E# add(#e# x, #e# y, #e# z) {
+        return Vector3#E#.from(this.getX() + x, this.getY() + y, this.getZ() + z);
+    }
+
+    @Nonnull
+    public Vector3#E# sub(#e# x, #e# y, #e# z) {
+        return Vector3#E#.from(this.getX() - x, this.getY() - y, this.getZ() - z);
+    }
+
+    @Nonnull
+    public Vector3#E# mul(#e# x, #e# y, #e# z) {
+        return Vector3#E#.from(this.getX() * x, this.getY() * y, this.getZ() * z);
+    }
+
+    @Nonnull
+    public Vector3#E# div(#e# x, #e# y, #e# z) {
+        return Vector3#E#.from(this.getX() / x, this.getY() / y, this.getZ() / z);
+    }
+
+    @Nonnull
+    public Vector3#E# project(#e# x, #e# y, #e# z) {
+        final #e# lengthSquared = x * x + y * y + z * z;
+        if (Math.abs(lengthSquared) < #Eeps#) {
+            throw new ArithmeticException("Cannot project onto the zero vector");
+        }
+        final #e# a = dot(x, y, z) / lengthSquared;
+        return Vector3#E#.from(a * x, a * y, a * z);
+    }
+
+    @Nonnull
+    public Vector3#E# cross(#e# x, #e# y, #e# z) {
+        return Vector3#E#.from(this.getY() * z - this.getZ() * y, this.getZ() * x - this.getX() * z, this.getX() * y - this.getY() * x);
+    }
+
+    @Nonnull
+    @Override
+    public Vector3#E# pow(#e# power) {
+        return Vector3#E#.from(Math.pow(x, power), Math.pow(y, power), Math.pow(z, power));
+    }
+
+    @Nonnull
+    @Override
+    public Vector3#E# ceil() {
+        return Vector3#E#.from(Math.ceil(this.getX()), Math.ceil(this.getY()), Math.ceil(this.getZ()));
+    }
+
+    @Nonnull
+    @Override
+    public Vector3#E# floor() {
+        return Vector3#E#.from(GenericMath.floor(this.getX()), GenericMath.floor(this.getY()), GenericMath.floor(this.getZ()));
+    }
+
+    @Nonnull
+    @Override
+    public Vector3#E# round() {
+        return Vector3#E#.from(Math.round(this.getX()), Math.round(this.getY()), Math.round(this.getZ()));
+    }
+
+    @Nonnull
+    @Override
+    public Vector3#E# abs() {
+        return Vector3#E#.from(Math.abs(this.getX()), Math.abs(this.getY()), Math.abs(this.getZ()));
+    }
+
+    @Nonnull
+    @Override
+    public Vector3#E# negate() {
+        return Vector3#E#.from(-this.getX(), -this.getY(), -this.getZ());
+    }
+
+    @Nonnull
+    public Vector3#E# min(#e# x, #e# y, #e# z) {
+        return Vector3#E#.from(Math.min(this.getX(), x), Math.min(this.getY(), y), Math.min(this.getZ(), z));
+    }
+
+    @Nonnull
+    public Vector3#E# max(#e# x, #e# y, #e# z) {
+        return Vector3#E#.from(Math.max(this.getX(), x), Math.max(this.getY(), y), Math.max(this.getZ(), z));
+    }
+
+    @Nonnull
+    public Vector3#E# up(#e# v) {
+        return Vector3#E#.from(this.getX(), this.getY() + v, this.getZ());
+    }
+
+    @Nonnull
+    public Vector3#E# down(#e# v) {
+        return Vector3#E#.from(this.getX(), this.getY() - v, this.getZ());
+    }
+
+    @Nonnull
+    public Vector3#E# north(#e# v) {
+        return Vector3#E#.from(this.getX(), this.getY(), this.getZ() - v);
+    }
+
+    @Nonnull
+    public Vector3#E# south(#e# v) {
+        return Vector3#E#.from(this.getX(), this.getY(), this.getZ() + v);
+    }
+
+    @Nonnull
+    public Vector3#E# east(#e# v) {
+        return Vector3#E#.from(this.getX() + v, this.getY(), this.getZ());
+    }
+
+    @Nonnull
+    public Vector3#E# west(#e# v) {
+        return Vector3#E#.from(this.getX() - v, this.getY(), this.getZ());
+    }
+
+    @Nonnull
+    @Override
+    public Vector3#E# normalize() {
+        final #e# length = length();
+        if (Math.abs(length) < #Eeps#) {
+            throw new ArithmeticException("Cannot normalize the zero vector");
+        }
+        return Vector3#E#.from(this.getX() / length, this.getY() / length, this.getZ() / length);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Vector3#E#)) {
+            return false;
+        }
+        final Vector3#E# vector3 = (Vector3#E#) o;
+        if (#ET#.compare(vector3.getX(), x) != 0) {
+            return false;
+        }
+        if (#ET#.compare(vector3.getY(), y) != 0) {
+            return false;
+        }
+        if (#ET#.compare(vector3.getZ(), z) != 0) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        if (!hashed) {
+            int result = (x != +0.0f ? #ET#.hashCode(x) : 0);
+            result = 31 * result + (y != +0.0f ? #ET#.hashCode(y) : 0);
+            hashCode = 31 * result + (z != +0.0f ? #ET#.hashCode(z) : 0);
+            hashed = true;
+        }
+        return hashCode;
+    }
+}

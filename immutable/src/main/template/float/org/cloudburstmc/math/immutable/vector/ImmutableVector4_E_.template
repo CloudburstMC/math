@@ -1,0 +1,172 @@
+package org.cloudburstmc.math.immutable.vector;
+
+import org.cloudburstmc.math.GenericMath;
+import org.cloudburstmc.math.TrigMath;
+import org.cloudburstmc.math.vector.*;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.concurrent.Immutable;
+
+import java.io.Serializable;
+
+@Immutable
+@ParametersAreNonnullByDefault
+public class ImmutableVector4#E# extends Vector4#E# {
+    private static final long serialVersionUID = 1;
+    private final #e# x;
+    private final #e# y;
+    private final #e# z;
+    private final #e# w;
+    private transient volatile boolean hashed = false;
+    private transient volatile int hashCode = 0;
+
+    ImmutableVector4#E#(#e# x, #e# y, #e# z, #e# w) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.w = w;
+    }
+
+    @Override
+    public #e# getX() {
+        return x;
+    }
+
+    @Override
+    public #e# getY() {
+        return y;
+    }
+
+    @Override
+    public #e# getZ() {
+        return z;
+    }
+
+    @Override
+    public #e# getW() {
+        return w;
+    }
+
+    @Nonnull
+    public Vector4#E# add(#e# x, #e# y, #e# z, #e# w) {
+        return Vector4#E#.from(this.getX() + x, this.getY() + y, this.getZ() + z, this.getW() + w);
+    }
+
+    @Nonnull
+    public Vector4#E# sub(#e# x, #e# y, #e# z, #e# w) {
+        return Vector4#E#.from(this.getX() - x, this.getY() - y, this.getZ() - z, this.getW() - w);
+    }
+
+    @Nonnull
+    public Vector4#E# mul(#e# x, #e# y, #e# z, #e# w) {
+        return Vector4#E#.from(this.getX() * x, this.getY() * y, this.getZ() * z, this.getW() * w);
+    }
+
+    @Nonnull
+    public Vector4#E# div(#e# x, #e# y, #e# z, #e# w) {
+        return Vector4#E#.from(this.getX() / x, this.getY() / y, this.getZ() / z, this.getW() / w);
+    }
+
+    @Nonnull
+    public Vector4#E# project(#e# x, #e# y, #e# z, #e# w) {
+        final #e# lengthSquared = x * x + y * y + z * z + w * w;
+        if (Math.abs(lengthSquared) < #Eeps#) {
+            throw new ArithmeticException("Cannot project onto the zero vector");
+        }
+        final #e# a = dot(x, y, z, w) / lengthSquared;
+        return Vector4#E#.from(a * x, a * y, a * z, a * w);
+    }
+
+    @Nonnull
+    @Override
+    public Vector4#E# pow(#e# power) {
+        return Vector4#E#.from(Math.pow(this.getX(), power), Math.pow(this.getY(), power), Math.pow(this.getZ(), power), Math.pow(this.getW(), power));
+    }
+
+    @Nonnull
+    @Override
+    public Vector4#E# ceil() {
+        return Vector4#E#.from(Math.ceil(this.getX()), Math.ceil(this.getY()), Math.ceil(this.getZ()), Math.ceil(this.getW()));
+    }
+
+    @Nonnull
+    @Override
+    public Vector4#E# floor() {
+        return Vector4#E#.from(GenericMath.floor(this.getX()), GenericMath.floor(this.getY()), GenericMath.floor(this.getZ()), GenericMath.floor(this.getW()));
+    }
+
+    @Nonnull
+    @Override
+    public Vector4#E# round() {
+        return Vector4#E#.from(Math.round(this.getX()), Math.round(this.getY()), Math.round(this.getZ()), Math.round(this.getW()));
+    }
+
+    @Nonnull
+    @Override
+    public Vector4#E# abs() {
+        return Vector4#E#.from(Math.abs(this.getX()), Math.abs(this.getY()), Math.abs(this.getZ()), Math.abs(this.getW()));
+    }
+
+    @Nonnull
+    @Override
+    public Vector4#E# negate() {
+        return Vector4#E#.from(-this.getX(), -this.getY(), -this.getZ(), -this.getW());
+    }
+
+    @Nonnull
+    public Vector4#E# min(#e# x, #e# y, #e# z, #e# w) {
+        return Vector4#E#.from(Math.min(this.getX(), x), Math.min(this.getY(), y), Math.min(this.getZ(), z), Math.min(this.getW(), w));
+    }
+
+    @Nonnull
+    public Vector4#E# max(#e# x, #e# y, #e# z, #e# w) {
+        return Vector4#E#.from(Math.max(this.getX(), x), Math.max(this.getY(), y), Math.max(this.getZ(), z), Math.max(this.getW(), w));
+    }
+
+    @Nonnull
+    @Override
+    public Vector4#E# normalize() {
+        final #e# length = length();
+        if (Math.abs(length) < #Eeps#) {
+            throw new ArithmeticException("Cannot normalize the zero vector");
+        }
+        return Vector4#E#.from(this.getX() / length, this.getY() / length, this.getZ() / length, this.getW() / length);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Vector4#E#)) {
+            return false;
+        }
+        final Vector4#E# vector4 = (Vector4#E#) o;
+        if (#ET#.compare(vector4.getW(), w) != 0) {
+            return false;
+        }
+        if (#ET#.compare(vector4.getX(), x) != 0) {
+            return false;
+        }
+        if (#ET#.compare(vector4.getY(), y) != 0) {
+            return false;
+        }
+        if (#ET#.compare(vector4.getZ(), z) != 0) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        if (!hashed) {
+            int result = (x != +0.0f ? #ET#.hashCode(x) : 0);
+            result = 31 * result + (y != +0.0f ? #ET#.hashCode(y) : 0);
+            result = 31 * result + (z != +0.0f ? #ET#.hashCode(z) : 0);
+            hashCode = 31 * result + (w != +0.0f ? #ET#.hashCode(w) : 0);
+            hashed = true;
+        }
+        return hashCode;
+    }
+}

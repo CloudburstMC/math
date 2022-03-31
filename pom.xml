@@ -4,13 +4,13 @@
 
     <!-- Project information -->
     <name>Math</name>
-    <groupId>org.cloudburstmc</groupId>
-    <artifactId>math</artifactId>
-    <version>1.1.1</version>
-    <packaging>jar</packaging>
+    <groupId>org.cloudburstmc.math</groupId>
+    <artifactId>math-parent</artifactId>
+    <version>2.0</version>
+    <packaging>pom</packaging>
     <inceptionYear>2013</inceptionYear>
     <url>https://github.com/CloudburstMC/math</url>
-    <description>Immutable math library for Java with a focus on games and computer graphics.</description>
+    <description>Math library for Java with a focus on games and computer graphics.</description>
 
     <!-- Parent information -->
     <parent>
@@ -18,6 +18,12 @@
         <artifactId>oss-parent</artifactId>
         <version>9</version>
     </parent>
+
+    <!-- Modules -->
+    <modules>
+        <module>api</module>
+        <module>immutable</module>
+    </modules>
 
     <!-- Build properties -->
     <properties>
@@ -73,19 +79,6 @@
         <developerConnection>scm:git:ssh://git@github.com:CloudburstMC/math.git</developerConnection>
         <url>https://github.com/CloudburstMC/math</url>
     </scm>
-
-    <distributionManagement>
-        <repository>
-            <id>releases</id>
-            <name>opencollab-releases</name>
-            <url>https://repo.opencollab.dev/release</url>
-        </repository>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <name>opencollab-snapshots</name>
-            <url>https://repo.opencollab.dev/snapshot</url>
-        </snapshotRepository>
-    </distributionManagement>
 
     <!-- Continuous integration -->
     <ciManagement>
@@ -169,178 +162,6 @@
                         <phase>clean</phase>
                         <goals>
                             <goal>format</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- Template parsing plugin -->
-            <plugin>
-                <groupId>com.github.wolf480pl.maven-plugins</groupId>
-                <artifactId>template-maven-plugin</artifactId>
-                <version>1.0.1</version>
-                <executions>
-                    <execution>
-                        <id>generatei</id>
-                        <configuration>
-                            <templateDir>src/main/template/integer</templateDir>
-                            <types>
-                                <type>
-                                    <primitive>int</primitive>
-                                    <wrapper>Integer</wrapper>
-                                    <abbreviation>i</abbreviation>
-                                    <max_value>Integer.MAX_VALUE</max_value>
-                                    <min_value>Integer.MIN_VALUE</min_value>
-                                    <placeholders>
-                                        <Overload>double</Overload>
-                                        <Overload1>float</Overload1>
-                                        <Overload2>long</Overload2>
-                                        <S>Int</S>
-                                        <FloorFunc>GenericMath.floor</FloorFunc>
-                                        <CeilFunc>GenericMath.ceil</CeilFunc>
-                                        <DecEqui>float</DecEqui>
-                                    </placeholders>
-                                </type>
-                                <type>
-                                    <primitive>long</primitive>
-                                    <wrapper>Long</wrapper>
-                                    <abbreviation>l</abbreviation>
-                                    <max_value>Long.MAX_VALUE</max_value>
-                                    <min_value>Long.MIN_VALUE</min_value>
-                                    <placeholders>
-                                        <Overload>double</Overload>
-                                        <Overload1>float</Overload1>
-                                        <Overload2>int</Overload2>
-                                        <S>Long</S>
-                                        <FloorFunc>GenericMath.floor64</FloorFunc>
-                                        <CeilFunc>GenericMath.ceil64</CeilFunc>
-                                        <DecEqui>double</DecEqui>
-                                    </placeholders>
-                                </type>
-                            </types>
-                        </configuration>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>test-generatei</id>
-                        <configuration>
-                            <templateDir>src/test/template/integer</templateDir>
-                            <types>
-                                <type>
-                                    <primitive>int</primitive>
-                                    <wrapper>Integer</wrapper>
-                                    <abbreviation>i</abbreviation>
-                                    <max_value>Integer.MAX_VALUE</max_value>
-                                    <min_value>Integer.MIN_VALUE</min_value>
-                                    <placeholders>
-                                        <Overload>long</Overload>
-                                        <S>Int</S>
-                                        <DecEqui>float</DecEqui>
-                                        <DecEquiTest>TestUtilf</DecEquiTest>
-                                    </placeholders>
-                                </type>
-                                <type>
-                                    <primitive>long</primitive>
-                                    <wrapper>Long</wrapper>
-                                    <abbreviation>l</abbreviation>
-                                    <max_value>Long.MAX_VALUE</max_value>
-                                    <min_value>Long.MIN_VALUE</min_value>
-                                    <placeholders>
-                                        <Overload>int</Overload>
-                                        <S>Long</S>
-                                        <DecEqui>double</DecEqui>
-                                        <DecEquiTest>TestUtild</DecEquiTest>
-                                    </placeholders>
-                                </type>
-                            </types>
-                        </configuration>
-                        <phase>generate-test-sources</phase>
-                        <goals>
-                            <goal>test-generate</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>generate</id>
-                        <configuration>
-                            <templateDir>src/main/template/float</templateDir>
-                            <types>
-                                <type>
-                                    <primitive>float</primitive>
-                                    <wrapper>Float</wrapper>
-                                    <abbreviation>f</abbreviation>
-                                    <max_value>Float.POSITIVE_INFINITY</max_value>
-                                    <min_value>Float.NEGATIVE_INFINITY</min_value>
-                                    <placeholders>
-                                        <Overload>double</Overload>
-                                        <Overload1>int</Overload1>
-                                        <Overload2>long</Overload2>
-                                        <S>Float</S>
-                                        <eps>GenericMath.FLT_EPSILON</eps>
-                                    </placeholders>
-                                </type>
-                                <type>
-                                    <primitive>double</primitive>
-                                    <wrapper>Double</wrapper>
-                                    <abbreviation>d</abbreviation>
-                                    <max_value>Double.POSITIVE_INFINITY</max_value>
-                                    <min_value>Double.NEGATIVE_INFINITY</min_value>
-                                    <placeholders>
-                                        <Overload>float</Overload>
-                                        <Overload1>int</Overload1>
-                                        <Overload2>long</Overload2>
-                                        <S>Double</S>
-                                        <eps>GenericMath.DBL_EPSILON</eps>
-                                    </placeholders>
-                                </type>
-                            </types>
-                        </configuration>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>test-generate</id>
-                        <configuration>
-                            <templateDir>src/test/template/float</templateDir>
-                            <types>
-                                <type>
-                                    <primitive>float</primitive>
-                                    <wrapper>Float</wrapper>
-                                    <abbreviation>f</abbreviation>
-                                    <max_value>Float.POSITIVE_INFINITY</max_value>
-                                    <min_value>Float.NEGATIVE_INFINITY</min_value>
-                                    <placeholders>
-                                        <Overload>double</Overload>
-                                        <Overload1>int</Overload1>
-                                        <Overload2>long</Overload2>
-                                        <S>Float</S>
-                                        <eps>GenericMath.FLT_EPSILON</eps>
-                                        <teps>0.00001f</teps>
-                                    </placeholders>
-                                </type>
-                                <type>
-                                    <primitive>double</primitive>
-                                    <wrapper>Double</wrapper>
-                                    <abbreviation>d</abbreviation>
-                                    <max_value>Double.POSITIVE_INFINITY</max_value>
-                                    <min_value>Double.NEGATIVE_INFINITY</min_value>
-                                    <placeholders>
-                                        <Overload>float</Overload>
-                                        <Overload1>int</Overload1>
-                                        <Overload2>long</Overload2>
-                                        <S>Double</S>
-                                        <eps>GenericMath.DBL_EPSILON</eps>
-                                        <teps>0.0000008</teps>
-                                    </placeholders>
-                                </type>
-                            </types>
-                        </configuration>
-                        <phase>generate-test-sources</phase>
-                        <goals>
-                            <goal>test-generate</goal>
                         </goals>
                     </execution>
                 </executions>

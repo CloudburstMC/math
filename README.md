@@ -1,6 +1,6 @@
 # Math [![License](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)][License] [![Build Status](https://ci.opencollab.dev/job/NukkitX/job/math/job/master/badge/icon)](https://ci.opencollab.dev/job/NukkitX/job/math/job/master/)
 
-Immutable math library for Java that offers easy conversion between math types, fast trigonometric functions, vectors, matrices, complex numbers, quaternions, and operation chaining, with a focus on games and computer graphics.
+Math library for Java that offers easy conversion between math types, fast trigonometric functions, vectors, matrices, complex numbers, quaternions, and operation chaining, with a focus on games and computer graphics.
 
 ## Getting Started
 * [Official documentation](#documentation)
@@ -30,6 +30,8 @@ Are you a talented programmer looking to contribute some code? We'd love the hel
 * For help setting up the project, keep reading!
 
 ## Usage
+By default, an `immutable` implementation is provided, however an API is available.
+
 If you're using [Maven](https://maven.apache.org/download.html) to manage project dependencies, simply include the following in your `pom.xml` file:
 
     <repository>
@@ -38,9 +40,9 @@ If you're using [Maven](https://maven.apache.org/download.html) to manage projec
     </repository>
 
     <dependency>
-        <groupId>org.cloudburstmc</groupId>
-        <artifactId>math</artifactId>
-        <version>1.1.0</version>
+        <groupId>org.cloudburstmc.math</groupId>
+        <artifactId>immutable</artifactId>
+        <version>2.0</version>
     </dependency>
 
 If you're using [Gradle](https://www.gradle.org/) to manage project dependencies, simply include the following in your `build.gradle` file:
@@ -51,8 +53,10 @@ If you're using [Gradle](https://www.gradle.org/) to manage project dependencies
         }
     }
     dependencies {
-        compile 'org.cloudburstmc:math:1.1.0'
+        compile 'org.cloudburstmc.math:immutable:2.0'
     }
+
+If you intend to only shade in the API and provide the implementations yourself, replace `immutable` with `api`.
 
 If you plan on using snapshots and do not already have the snapshot repo in your repository list, you will need to add this as well:
 
