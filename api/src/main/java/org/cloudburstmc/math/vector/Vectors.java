@@ -24,11 +24,11 @@
  */
 package org.cloudburstmc.math.vector;
 
+import org.cloudburstmc.math.MathImplementationLoader;
+
 import java.util.Iterator;
-import java.util.ServiceLoader;
 
 class Vectors {
-    private static final ServiceLoader<VectorProvider> VECTOR_PROVIDER_LOADER = ServiceLoader.load(VectorProvider.class);
     private static VectorProvider cached;
     
     public static VectorProvider provider() {
@@ -36,7 +36,7 @@ class Vectors {
             return cached;
         }
     
-        Iterator<VectorProvider> iterator = VECTOR_PROVIDER_LOADER.iterator();
+        Iterator<VectorProvider> iterator = MathImplementationLoader.serviceLoader(VectorProvider.class).iterator();
         if (!iterator.hasNext()) {
             throw new RuntimeException("Could not initialize vector provider as no implementation was provided!");
         }

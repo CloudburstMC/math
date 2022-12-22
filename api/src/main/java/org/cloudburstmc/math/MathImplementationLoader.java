@@ -22,41 +22,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.cloudburstmc.math.imaginary;
+package org.cloudburstmc.math;
 
-import org.cloudburstmc.math.MathImplementationLoader;
+import java.util.ServiceLoader;
 
-import java.util.Iterator;
+public final class MathImplementationLoader {
 
-class Imaginary {
-    private static ImaginaryProvider cached;
-
-    public static ImaginaryProvider provider() {
-        if (cached != null) {
-            return cached;
-        }
-
-        Iterator<ImaginaryProvider> iterator = MathImplementationLoader.serviceLoader(ImaginaryProvider.class).iterator();
-        if (!iterator.hasNext()) {
-            throw new RuntimeException("Could not initialize imaginary provider as no implementation was provided!");
-        }
-
-        return cached = iterator.next();
-    }
-
-    public static Complexd createComplexd(double x, double y) {
-        return provider().createComplexd(x, y);
-    }
-
-    public static Complexf createComplexf(float x, float y) {
-        return provider().createComplexf(x, y);
-    }
-
-    public static Quaterniond createQuaterniond(double x, double y, double z, double w) {
-        return provider().createQuaterniond(x, y, z, w);
-    }
-
-    public static Quaternionf createQuaternionf(float x, float y, float z, float w) {
-        return provider().createQuaternionf(x, y, z, w);
+    public static <S> ServiceLoader<S> serviceLoader(Class<S> service) {
+        return ServiceLoader.load(service, service.getClassLoader());
     }
 }
