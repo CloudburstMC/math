@@ -24,19 +24,11 @@
  */
 package org.cloudburstmc.math;
 
-import javax.annotation.Nonnull;
-import java.util.Objects;
 import java.util.ServiceLoader;
 
 public final class MathImplementationLoader {
 
-    private static ClassLoader CLASS_LOADER = Thread.currentThread().getContextClassLoader();
-
-    public static void setClassLoader(@Nonnull ClassLoader classLoader) {
-        CLASS_LOADER = Objects.requireNonNull(classLoader);
-    }
-
     public static <S> ServiceLoader<S> serviceLoader(Class<S> service) {
-        return ServiceLoader.load(service, CLASS_LOADER);
+        return ServiceLoader.load(service, service.getClassLoader());
     }
 }
